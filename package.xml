@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package 
+	xmlns="http://www.woltlab.com" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.woltlab.com http://www.woltlab.com/XSD/6.0/package.xsd" 
+	name="de.xxschrandxx.dynmap"
+>
+	<packageinformation>
+		<!-- de.xxschrandxx.dynmap -->
+		<packagename>Implementation of "Dynmap®"</packagename>
+		<packagedescription>Implements Dynmap® into WSC.</packagedescription>
+		<packagedescription language="de">Implementiert Dynmap® ins WSC.</packagedescription>
+		<version>1.0.0</version>
+		<date>2022-11-07</date>
+	</packageinformation>
+	<authorinformation>
+		<author>xXSchrandXx</author>
+	</authorinformation>
+	<requiredpackages>
+		<requiredpackage minversion="6.1.0 RC 1">com.woltlab.wcf</requiredpackage>
+		<requiredpackage minversion="1.0.2">de.xxschrandxx.leaflet</requiredpackage>
+	</requiredpackages>
+	<excludedpackages>
+		<excludedpackage version="7.0.0 Alpha 1">com.woltlab.wcf</excludedpackage>
+		<excludedpackage version="2.0.0 Alpha 1">de.xxschrandxx.leaflet</excludedpackage>
+	</excludedpackages>
+
+	<instructions type="install">
+		<instruction type="file"/>
+		<instruction type="template"/>
+		<instruction type="option"/>
+		<instruction type="page"/>
+		<instruction type="menuItem"/>
+		<instruction type="language"/>
+	</instructions>
+</package>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data 
+	xmlns="https://www.woltlab.com"
+	xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="https://www.woltlab.com https://www.woltlab.com/XSD/6.0/page.xsd"
+>
+	<import>
+		<page identifier="de.xxschrandxx.dynmapPage">
+			<pageType>system</pageType>
+			<controller>wcf\page\DynmapPage</controller>
+			<name language="de">Dynmap</name>
+			<name language="en">Dynmap</name>
+		</page>
+		<page identifier="de.xxschrandxx.dynmapMapPage">
+			<pageType>system</pageType>
+			<controller>wcf\page\DynmapMapPage</controller>
+			<requireObjectID>1</requireObjectID>
+			<name language="de">Dynmap</name>
+			<name language="en">Dynmap</name>
+		</page>
+	</import>
+</data>
