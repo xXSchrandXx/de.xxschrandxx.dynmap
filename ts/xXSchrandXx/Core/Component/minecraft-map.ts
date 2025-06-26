@@ -6,13 +6,9 @@
  * @license GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
  */
 
-import * as L from "leaflet";
-import { getPhrase } from "WoltLabSuite/Core/Language";
-import * as EventHandler from "WoltLabSuite/Core/Event/Handler";
-import { prepareRequest } from "WoltLabSuite/Core/Ajax/Backend";
 import * as D from "dynmap";
 
-declare class DynMap extends D.DynMap {
+declare class DynMap extends D.DynMap {// modify DynMap to be exported
   constructor(options: D.Options);
 }
 
