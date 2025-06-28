@@ -26,6 +26,8 @@ class GetConfiguration implements IController
         $json = $standaloneFileList->getSingleObject()->getContent();
 
         // TODO remove proteced Worlds
+        // TODO set login options to false
+        // TODO modify webchat
 
         return new JsonResponse($json);
     }

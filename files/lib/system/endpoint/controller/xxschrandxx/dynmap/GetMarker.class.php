@@ -15,6 +15,7 @@ use wcf\data\dynmap\markericons\MarkerIconList;
 use wcf\http\Helper;
 use wcf\system\endpoint\IController;
 use wcf\system\endpoint\GetRequest;
+use wcf\system\request\RouteHandler;
 
 #[GetRequest('/xxschrandxx/dynmap/{server:\d+}/marker')]
 class GetMarker implements IController
@@ -71,7 +72,7 @@ class GetMarker implements IController
                     $face->Image
                 );
             } else {
-                return new RedirectResponse(WCF_DIR . 'images/dynmap/blank.png');
+                return new RedirectResponse(RouteHandler::getHost() . '/js/dynmap/images/blank.png');
             }
         } else { // _markers_
             $in = explode(".", $parts[1]);
@@ -101,7 +102,7 @@ class GetMarker implements IController
                         $markerIcon->Image
                     );
                 } else {
-                    return new RedirectResponse(WCF_DIR . 'images/dynmap/blank.png');
+                    return new RedirectResponse(RouteHandler::getHost() . '/js/dynmap/images/blank.png');
                 }
             }
         }

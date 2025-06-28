@@ -6,9 +6,9 @@ use wcf\data\dynmap\DynmapDatabaseObject;
 use wcf\util\JSON;
 
 /**
- * @property-read $FileName
+ * @property-read string $FileName
  * @property-read $ServerID
- * @property-read $Content JSON
+ * @property-read array $Content JSON
  */
 class StandaloneFile extends DynmapDatabaseObject
 {

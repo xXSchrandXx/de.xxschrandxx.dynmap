@@ -21,13 +21,22 @@ componentconstructors['chat'] = function(dynmap, configuration) {
 	}
 	
 	if (dynmap.options.allowwebchat) {
+        const cookies = document.cookie.split(";").map((c) => c.trim());
+        const xsrfToken = cookies.find((c) => c.startsWith("XSRF-TOKEN="));
+        if (xsrfToken === undefined) {
+            return "COOKIE_NOT_FOUND";
+        }
+        const [_key, value] = xsrfToken.split(/=/, 2);
 		// Accepts 'sendchat'-events to send chat messages to the server.
 		$(dynmap).bind('sendchat', function(event, message) {
 			var data = '{"name":'+JSON.stringify(pname?pname:"")+',"message":'+JSON.stringify(message)+'}';
 			$.ajax({
 				type: 'POST',
 		        contentType: "application/json; charset=utf-8",
-				url: config.url.sendmessage,
+				headers: {
+                    "X-XSRF-TOKEN": decodeURIComponent(value.trim())
+                },
+				url: dynmap.options.url.sendmessage,
 				data: data,
 				dataType: 'json',
 				success: function(response) {

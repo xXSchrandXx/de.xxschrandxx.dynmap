@@ -842,8 +842,8 @@
 	background-repeat: no-repeat;
 	background-position: 1px center;
 
-	margin: 4px;
-	padding: 1px 1px 1px 15px;
+	margin: 4px !important;
+	padding: 1px 1px 1px 15px !important;
 }
 
 .chatsendbutton {
@@ -1029,7 +1029,7 @@
 }
 .dynmap .dynmap-link-button {
     display: hidden;
-	background-image: url(images/link.png);
+	background-image: url(/js/3rdParty/dynmap/images/link.png);
 }
 
 /* Login/register panel */

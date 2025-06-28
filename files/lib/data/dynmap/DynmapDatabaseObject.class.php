@@ -9,6 +9,11 @@ class DynmapDatabaseObject extends DatabaseObject
     /**
      * @inheritDoc
      */
+    protected static $databaseTableIndexIsIdentity = false;
+
+    /**
+     * @inheritDoc
+     */
     public function __construct(?int $id, ?array $row = null, ?self $object = null)
     {
         if ($object !== null) {

@@ -14,7 +14,8 @@
 		require.config({
 			paths: {
 				'leaflet': '3rdParty/leaflet/leaflet',
-				'dynmap': '3rdParty/dynmap/map'
+				'dynmap': '3rdParty/dynmap/map',
+				'Core': 'WoltLabSuite/Core/Core',
 			},
 			shim: {
 				'leaflet': {
@@ -22,11 +23,14 @@
 				},
 				'dynmap': {
 					exports: 'D'
+				},
+				'Core': {
+					exports: 'Core'
 				}
 			}
 		});
 
-		require(['3rdParty/leaflet/leaflet'], function(L) {
+		require(['3rdParty/leaflet/leaflet', 'WoltLabSuite/Core/Core'], function(L, Core) {
 			require([
 				'3rdParty/dynmap/custommarker',
 				'3rdParty/dynmap/dynmaputils',

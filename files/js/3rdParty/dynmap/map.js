@@ -995,7 +995,7 @@ DynMap.prototype = {
 						$.ajax({
 							type: 'POST',
 		        				contentType: "application/json; charset=utf-8",
-								url: config.url.login,
+								url: me.options.url.login,
 								success: function(response) {
 									window.location = "index.html";
 								}

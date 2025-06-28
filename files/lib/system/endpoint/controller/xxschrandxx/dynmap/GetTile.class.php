@@ -12,6 +12,7 @@ use wcf\data\dynmap\tiles\Tile;
 use wcf\http\Helper;
 use wcf\system\endpoint\GetRequest;
 use wcf\system\endpoint\IController;
+use wcf\system\request\RouteHandler;
 
 #[GetRequest('/xxschrandxx/dynmap/{server:\d+}/tile')]
 class GetTile implements IController
@@ -38,7 +39,7 @@ class GetTile implements IController
         $parts = explode("/", $path);
 
         if (count($parts) != 4) {
-            return new RedirectResponse(WCF_DIR . 'js/3rdParty/dynmap/images/blank.png');
+            return new RedirectResponse(RouteHandler::getHost() . '/js/3rdParty/dynmap/images/blank.png');
         }
 
         $world = $parts[0];
@@ -67,12 +68,12 @@ class GetTile implements IController
             $x = intval($fparts[0]);
             $y = intval($fparts[1]);
         } else {
-            return new RedirectResponse(WCF_DIR . 'js/3rdParty/dynmap/images/blank.png');
+            return new RedirectResponse(RouteHandler::getHost() . '/js/3rdParty/dynmap/images/blank.png');
         }
 
         $tile = Tile::getTile($world, $prefix, $variant, $x, $y, $zoom);
         if (!$tile->HashCode) {
-            throw new InvalidArgumentException('Invalid tile: ' . $path);
+            return new RedirectResponse(RouteHandler::getHost() . '/js/3rdParty/dynmap/images/blank.png');
         }
         if ($tile->format === 0) {
             $contentType = 'image/png';

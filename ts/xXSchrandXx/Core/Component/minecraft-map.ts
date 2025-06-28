@@ -77,11 +77,13 @@ export class MinecraftMapElement extends HTMLElement {
         configuration: `${window.WSC_RPC_API_URL}xxschrandxx/dynmap/${this.id}/configuration`,
         update: `${window.WSC_RPC_API_URL}xxschrandxx/dynmap/${this.id}/update/{world}/{timestamp}`,
         sendmessage: `${window.WSC_RPC_API_URL}xxschrandxx/dynmap/${this.id}/sendmessage`,
-        login: `${window.WSC_RPC_API_URL}xxschrandxx/dynmap/${this.id}/login`,
-        register: `${window.WSC_RPC_API_URL}xxschrandxx/dynmap/${this.id}/register`,
+        login: '',
+        register: '',
         tiles: `${window.WSC_RPC_API_URL}xxschrandxx/dynmap/${this.id}/tile&tile=`,
         markers: `${window.WSC_RPC_API_URL}xxschrandxx/dynmap/${this.id}/marker&marker=`
-      }
+      },
+      "login-enabled": false,
+      loginrequired: false
     }
 
     window.dynmap = new DynMap(options);
