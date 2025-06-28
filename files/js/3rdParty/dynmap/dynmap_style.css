@@ -809,9 +809,9 @@
 
 .chat {
 	position: absolute;
-	bottom: 0px;
+	bottom: 40px;
 	left: 32px;
-    z-index:50;
+    z-index: 50;
 
     border-color: rgba(0,0,0,0.5);
     background: rgba(0,0,0,0.6);
@@ -831,7 +831,7 @@
     position: absolute;
 	width: 608px;
 	height: 16px;
-    bottom: 8px;
+    bottom: -32px;
 	outline: none;
 	color: #fff;
 	background-color: #000000;
@@ -876,6 +876,9 @@
 
 	margin: 4px 4px 0px 4px;
 	padding: 1px;
+}
+.messagelist:empty {
+    display: none;
 }
 
 .scrollback:hover {
