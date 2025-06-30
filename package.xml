@@ -19,10 +19,11 @@
 	<requiredpackages>
 		<requiredpackage minversion="6.1.0 RC 1">com.woltlab.wcf</requiredpackage>
 		<requiredpackage minversion="1.0.2">de.xxschrandxx.leaflet</requiredpackage>
+		<requiredpackage minversion="4.0.2">de.xxschrandxx.wsc.minecraft-linker</requiredpackage>
 	</requiredpackages>
 	<excludedpackages>
 		<excludedpackage version="7.0.0 Alpha 1">com.woltlab.wcf</excludedpackage>
-		<excludedpackage version="2.0.0 Alpha 1">de.xxschrandxx.leaflet</excludedpackage>
+		<excludedpackage version="5.0.0 Alpha 1">de.xxschrandxx.wsc.minecraft-linker</excludedpackage>
 	</excludedpackages>
 
 	<instructions type="install">

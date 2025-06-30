@@ -7,9 +7,9 @@ use Override;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use wcf\data\dynmap\standalonefiles\StandaloneFileList;
-use wcf\http\Helper;
 use wcf\system\endpoint\GetRequest;
 use wcf\system\endpoint\IController;
+use wcf\util\DynmapUtil;
 
 #[GetRequest('/xxschrandxx/dynmap/{server:\d+}/update/{world}/{timestamp:\d+}')]
 class GetUpdate implements IController
@@ -29,7 +29,9 @@ class GetUpdate implements IController
             throw new \InvalidArgumentException('Invalid world name: ' . $variables['world']);
         }
 
-        // TODO check proteced Worlds
+        if (!DynmapUtil::hasAccesToWorld($variables['world'])) {
+            return new JsonResponse(['error' => 'access-denied']);
+        }
 
         $standaloneFileList = new StandaloneFileList();
         $standaloneFileList->getConditionBuilder()->add('ServerID = ? AND FileName = ?', [
@@ -39,9 +41,7 @@ class GetUpdate implements IController
         $standaloneFileList->readObjects();
         $json = $standaloneFileList->getSingleObject()->getContent();
 
-        // TODO check login required
-
-        // TODO remove hidden players
+        $json['players'] = DynmapUtil::removeHiddenPlayers($json['players']);
 
         return new JsonResponse($json);
     }

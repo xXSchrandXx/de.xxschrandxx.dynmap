@@ -13,6 +13,7 @@ use wcf\http\Helper;
 use wcf\system\endpoint\GetRequest;
 use wcf\system\endpoint\IController;
 use wcf\system\request\RouteHandler;
+use wcf\util\DynmapUtil;
 
 #[GetRequest('/xxschrandxx/dynmap/{server:\d+}/tile')]
 class GetTile implements IController
@@ -44,7 +45,9 @@ class GetTile implements IController
 
         $world = $parts[0];
 
-        // TODO check proteced Worlds
+        if (!DynmapUtil::hasAccesToWorld($world)) {
+            return new RedirectResponse(RouteHandler::getHost() . '/js/3rdParty/dynmap/images/blank.png');
+        }
 
         $variant = 'STANDARD';
 
@@ -55,7 +58,9 @@ class GetTile implements IController
             $variant = 'DAY';
         }
 
-        // TODO check map access
+        if (!DynmapUtil::hasAccesToMap($world, $prefix)) {
+            return new RedirectResponse(RouteHandler::getHost() . '/js/3rdParty/dynmap/images/blank.png');
+        }
 
         $fparts = explode("_", $parts[3]);
 

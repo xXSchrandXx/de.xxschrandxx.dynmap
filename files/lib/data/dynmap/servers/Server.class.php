@@ -41,7 +41,9 @@ class Server
         $standaloneFileList->readObjects();
         $standaloneFiles = $standaloneFileList->getObjects();
         foreach ($standaloneFiles as $standaloneFile) {
-            if ($standaloneFile->FileName == 'dynmap_access.php') {
+            if (!str_ends_with($standaloneFile->FileName, 'json')) {
+                continue;
+            } else if ($standaloneFile->FileName == 'dynmap_webchat.json') {
                 continue;
             } else if ($standaloneFile->FileName == 'dynmap_config.json') {
                 $this->config = JSON::decode($standaloneFile->Content, true);

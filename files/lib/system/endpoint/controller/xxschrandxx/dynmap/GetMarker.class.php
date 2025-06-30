@@ -115,6 +115,7 @@ final class MarkerParameters
     public function __construct(
         /**
          * faces/{size}x{size}/{player}.png
+         * _markers_/{marker}.{_marker.json/png}
          * @var non-empty-string
          */
         public readonly string $marker

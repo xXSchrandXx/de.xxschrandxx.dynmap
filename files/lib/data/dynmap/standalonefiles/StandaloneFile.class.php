@@ -2,13 +2,14 @@
 
 namespace wcf\data\dynmap\standalonefiles;
 
+use InvalidArgumentException;
 use wcf\data\dynmap\DynmapDatabaseObject;
 use wcf\util\JSON;
 
 /**
  * @property-read string $FileName
  * @property-read $ServerID
- * @property-read array $Content JSON
+ * @property-read array|string $Content
  */
 class StandaloneFile extends DynmapDatabaseObject
 {
@@ -30,7 +31,24 @@ class StandaloneFile extends DynmapDatabaseObject
             return $this->decodedContent;
         }
 
-        $this->decodedContent = JSON::decode($this->Content, true);
+        if (str_ends_with($this->FileName, '.json')) {
+            $this->decodedContent = JSON::decode($this->Content, true);
+        } else if (str_ends_with($this->FileName, '.php')) {
+            preg_match_all('/\$(\w+)/', $this->Content, $matches);
+            $result = [];
+            foreach ($matches[1] as $varName) {
+                if (preg_match('/\$' . preg_quote($varName, '/') . '\s*=\s*([^;]+)/', $this->Content, $valueMatch)) {
+                    $result[$varName] = $valueMatch[1];
+                }
+            }
+            $this->decodedContent = $result;
+        } else {
+            if (ENABLE_DEBUG_MODE) {
+                throw new InvalidArgumentException('Not supported Content format.');
+            }
+            $this->decodedContent = [];
+        }
+
         return $this->decodedContent;
     }
 }

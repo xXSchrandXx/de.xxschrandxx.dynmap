@@ -90,12 +90,11 @@ class PostSendMessage implements IController
                 'Content' => JSON::encode($new_messages)
             ], $conditionBuilder);
         } else {
-            wcfDebug(
             StandaloneFileEditor::create([
                 'FileName' => 'dynmap_webchat.json',
                 'ServerID' => $variables['server'],
                 'Content' => JSON::encode($new_messages)
-            ]));
+            ]);
         }
 
         $_SESSION['lastchat'] = time() + $msginterval;

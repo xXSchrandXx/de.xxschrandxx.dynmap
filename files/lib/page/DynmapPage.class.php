@@ -23,7 +23,9 @@ class DynmapPage extends AbstractPage
         $serverIDs = DynmapDB::getInstance()->getServerIDs();
         if (count($serverIDs) <= 1) {
             // display server map
-            return new RedirectResponse(LinkHandler::getInstance()->getControllerLink(DynmapMapPage::class, ['id' => $serverIDs[0]]));
+            // using mid instead of id, cause it can be 0
+            return new RedirectResponse(LinkHandler::getInstance()->getControllerLink(DynmapMapPage::class, ['mid' => $serverIDs[0]]));
         }
+        // display server list
     }
 }

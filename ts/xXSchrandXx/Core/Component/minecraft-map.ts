@@ -73,12 +73,12 @@ export class MinecraftMapElement extends HTMLElement {
 
     const options: D.Options = {
       container: "#" + this.#container.id,
-      url : {
+      url: {
         configuration: `${window.WSC_RPC_API_URL}xxschrandxx/dynmap/${this.id}/configuration`,
         update: `${window.WSC_RPC_API_URL}xxschrandxx/dynmap/${this.id}/update/{world}/{timestamp}`,
         sendmessage: `${window.WSC_RPC_API_URL}xxschrandxx/dynmap/${this.id}/sendmessage`,
-        login: '',
-        register: '',
+        login: '', // not supported
+        register: '', // not supported
         tiles: `${window.WSC_RPC_API_URL}xxschrandxx/dynmap/${this.id}/tile&tile=`,
         markers: `${window.WSC_RPC_API_URL}xxschrandxx/dynmap/${this.id}/marker&marker=`
       },
