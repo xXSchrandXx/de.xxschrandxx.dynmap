@@ -35,6 +35,16 @@
 				<categoryname>dynmap_general</categoryname>
 				<optiontype>Password</optiontype>
 			</option>
+			<option name="dynmap_general_webchat_enabled">
+				<categoryname>dynmap_general</categoryname>
+				<optiontype>boolean</optiontype>
+				<defaultvalue>1</defaultvalue>
+			</option>
+			<option name="dynmap_general_webchat_interval">
+				<categoryname>dynmap_general</categoryname>
+				<optiontype>integer</optiontype>
+				<defaultvalue>5</defaultvalue>
+			</option>
 		</options>
 	</import>
 </data>

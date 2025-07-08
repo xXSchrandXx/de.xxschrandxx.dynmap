@@ -45,7 +45,7 @@ class GetTile implements IController
 
         $world = $parts[0];
 
-        if (!DynmapUtil::hasAccesToWorld($world)) {
+        if (!DynmapUtil::hasAccesToWorld($variables['server'], $world)) {
             return new RedirectResponse(RouteHandler::getHost() . '/js/3rdParty/dynmap/images/blank.png');
         }
 
@@ -58,7 +58,7 @@ class GetTile implements IController
             $variant = 'DAY';
         }
 
-        if (!DynmapUtil::hasAccesToMap($world, $prefix)) {
+        if (!DynmapUtil::hasAccesToMap($variables['server'], $world, $prefix)) {
             return new RedirectResponse(RouteHandler::getHost() . '/js/3rdParty/dynmap/images/blank.png');
         }
 

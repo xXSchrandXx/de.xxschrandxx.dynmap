@@ -13,9 +13,8 @@ return static function (): void {
         ControllerCollecting::class,
         static function (ControllerCollecting $event) {
             /*
-             * sendmessage: 'standalone/MySQL_sendmessage.php'
-             * login: 'standalone/MySQL_login.php'
-             * register: 'standalone/MySQL_register.php'
+             * login: disabled
+             * register: disabled
             */
             $event->register(new GetConfiguration());
             $event->register(new GetUpdate());

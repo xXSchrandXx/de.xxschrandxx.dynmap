@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data 
+    xmlns="https://www.woltlab.com"
+    xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="https://www.woltlab.com https://www.woltlab.com/XSD/6.0/userOption.xsd"
+>
+    <import>
+        <options>
+            <option name="canViewDynmap">
+                <categoryname>settings.privacy.content</categoryname>
+                <optiontype>select</optiontype>
+                <defaultvalue>0</defaultvalue>
+                <selectoptions>0:wcf.user.access.everyone
+1:wcf.user.access.registered
+2:wcf.user.access.following
+3:wcf.user.access.nobody</selectoptions>
+                <permissions>user.profile.canHideDynmap</permissions>
+                <editable>3</editable>
+            </option>
+        </options>
+    </import>
+</data>

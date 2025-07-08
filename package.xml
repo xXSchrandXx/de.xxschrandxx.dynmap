@@ -33,5 +33,7 @@
 		<instruction type="page"/>
 		<instruction type="menuItem"/>
 		<instruction type="language"/>
+		<instruction type="userOption"/>
+		<instruction type="userGroupOption"/>
 	</instructions>
 </package>

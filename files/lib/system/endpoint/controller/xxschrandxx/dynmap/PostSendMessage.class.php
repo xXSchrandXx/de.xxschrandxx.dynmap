@@ -12,6 +12,8 @@ use wcf\http\Helper;
 use wcf\system\database\util\PreparedStatementConditionBuilder;
 use wcf\system\endpoint\IController;
 use wcf\system\endpoint\PostRequest;
+use wcf\system\exception\PermissionDeniedException;
+use wcf\util\DynmapUtil;
 use wcf\util\JSON;
 use wcf\util\UserUtil;
 
@@ -23,6 +25,10 @@ class PostSendMessage implements IController
     {
         if (!isset($variables['server'])) {
             throw new \InvalidArgumentException('Missing required parameters: server');
+        }
+
+        if (!DynmapUtil::canUseWebchat()) {
+            throw new PermissionDeniedException();
         }
 
         $standaloneFileList = new StandaloneFileList();

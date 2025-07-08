@@ -29,7 +29,7 @@ class GetUpdate implements IController
             throw new \InvalidArgumentException('Invalid world name: ' . $variables['world']);
         }
 
-        if (!DynmapUtil::hasAccesToWorld($variables['world'])) {
+        if (!DynmapUtil::hasAccesToWorld($variables['server'], $variables['world'])) {
             return new JsonResponse(['error' => 'access-denied']);
         }
 
