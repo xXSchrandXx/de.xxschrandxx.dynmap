@@ -9,12 +9,6 @@
 	height: 100%;
 }
 
-/* TILE DEBUGGING */
-/*.leaflet-tile {
-	margin: -1;
-	border: 1px solid red;
-}*/
-
 /*******************
  * Attribution placement
  */
@@ -78,10 +72,19 @@
  */
 
 .dynmap > .map {
-    width: 100%;
     height: 100%;
     background: #000;
     z-index: 0;
+}
+@include screen-md-up {
+    .dynmap > .map {
+        width: 85%;
+    }
+}
+@include screen-sm-down {
+    .dynmap > .map {
+        width: 100%;
+    }
 }
 
 /* Map Controls */
@@ -157,17 +160,13 @@
  */
 
 .dynmap .sidebar {
-
     display: block;
     position: absolute;
-    z-index: 120;
 
     top: 0px;
     right: 0px;
 
     height: 100%;
-	width: 140px;
-	margin-right: -143px;
 
     background: rgb(0,0,0); /* FU IE */
     background: rgba(0,0,0,0.6);
@@ -175,10 +174,7 @@
 
     border-left: 1px solid rgba(0,0,0,0.5);
 }
-
 .dynmap .hitbar {
-
-    display: none;
     position: absolute;
     z-index: 110;
 
@@ -196,90 +192,67 @@
 
     border: 1px solid rgba(0,0,0,0.5);
 }
-
-/* magic and metrics */
-
-/* The following only applies to desktops, not to mobile devices */
-/* always display sidebar
-@media screen and (min-device-width: 640px) {
+@include screen-md-up {
     .dynmap .sidebar {
-        -moz-transition: all 0.6s ease-in-out;
-        -webkit-transition: all 0.6s ease-in-out;
-        -o-transition: all 0.6s ease-in-out;
-        transition: all 0.6s ease-in-out;
+        width: 15%;
+        padding: 10px;
     }
-
     .dynmap .hitbar {
+        display: none;
+    }
+}
+@include screen-sm-down {
+    .dynmap .sidebar {
+        right: 0px;
+        z-index: 120;
+        width: 200px;
+        margin-right: -210px;
+
         -moz-transition: all 0.6s ease-in-out;
         -webkit-transition: all 0.6s ease-in-out;
         -o-transition: all 0.6s ease-in-out;
         transition: all 0.6s ease-in-out;
     }
-
-    .dynmap .sidebar:hover {
+    .dynmap .sidebar.pinned {
         margin-right: 0px;
     }
+    .dynmap .sidebar .hitbar {
+        display: block;
+        left: -28px;
+        
+        -moz-transition: all 0.6s ease-in-out;
+        -webkit-transition: all 0.6s ease-in-out;
+        -o-transition: all 0.6s ease-in-out;
+        transition: all 0.6s ease-in-out;
+    }
+    .dynmap .sidebar.pinned .hitbar {
+        display: none;
+    }
+    .dynmap .sidebar .panel > .pin {
+        position: absolute;
 
-    .dynmap .sidebar < .hitbar:hover {
-        margin-right: 0px;
+        right: 8px;
+        top: 7px;
+
+        width: 16px;
+        height: 16px;
+
+        background-image: url(/js/3rdParty/dynmap/images/window_close.png);
     }
 
-    .dynmap .sidebar:hover .hitbar {
-        right: -120px;
+    .dynmap .sidebar .panel > .pin:hover {
+        background-image: url(/js/3rdParty/dynmap/images/window_pinned_hover.png);
+    }
+
+    .dynmap .sidebar.pinned .panel > .pin:hover {
+        background-image: url(/js/3rdParty/dynmap/images/window_close_hover.png);
+    }
+
+    .dynmap .sidebar.pinned .panel > .pin {
+        background-image: url(/js/3rdParty/dynmap/images/window_pinned.png);
     }
 }
 
-.dynmap .sidebar.pinned {
-    margin-right: 0px;
-}
-
-.dynmap .sidebar.pinned .hitbar {
-    right: -120px;
-}
-*/
-
-/* pinning */
-/* always display sidebar
-.dynmap .sidebar .panel > .pin {
-    position: absolute;
-
-    right: 8px;
-    top: 7px;
-
-    width: 16px;
-    height: 16px;
-
-    background-image: url(/js/3rdParty/dynmap/images/window_close.png);
-}
-
-.dynmap .sidebar .panel > .pin:hover {
-    background-image: url(/js/3rdParty/dynmap/images/window_pinned_hover.png);
-}
-
-.dynmap .sidebar.pinned .panel > .pin:hover {
-    background-image: url(/js/3rdParty/dynmap/images/window_close_hover.png);
-}
-
-.dynmap .sidebar.pinned .panel > .pin {
-    background-image: url(/js/3rdParty/dynmap/images/window_pinned.png);
-}
-*/
-
-/*******************
- * Sidebar clock style
- */
-/*
-.dynmap .panel .clock {
-    display: inline-block;
-    height: 16px;
-    z-index:50;
-
-    font-weight: bold;
-    background-repeat: no-repeat;
-    padding-left: 20px;
-    margin-left: 8px;
-}
-*/
 .largeclock.digitalclock {
 	text-align: center;
 	font-size: 50px;
@@ -313,12 +286,10 @@
 /*******************
  * Large clock style
  */
-
 .largeclock {
     position: absolute;
     top: 0;
     left: 0;
-    right: 0;
     border-color: rgba(0,0,0,0.5);
     width: 150px;
     height: 60px;
@@ -327,6 +298,17 @@
 
     margin: auto;
 }
+@include screen-md-up {
+    .largeclock {
+        right: 15%;
+    }
+}
+@include screen-sm-down {
+    .largeclock {
+        right: 0;
+    }
+}
+
 
 .timeofday {
     background-repeat: no-repeat;
@@ -749,10 +731,19 @@
     position: absolute;
     z-index: 10;
     top: 20px;
-    right: 32px;
     height: 84px;
     width: 83px;
     background-repeat: no-repeat;
+}
+@include screen-md-up {
+    .compass, .compass_NE, .compass_SE, .compass_NW, .compass_SW {
+        right: 17.5%;
+    }
+}
+@include screen-sm-down {
+    .compass, .compass_NE, .compass_SE, .compass_NW, .compass_SW {
+        right: 0px;
+    }
 }
 
 .compass, .compass_SE {
@@ -773,10 +764,24 @@
 
 .compass_flat, .compass_N, .compass_E, .compass_W, .compass_S {
 	top: 10px;
-	right: 21px;
 
 	height: 105px;
 	width: 105px;
+}
+@include screen-md-up {
+    .compass, .compass_NE, .compass_SE, .compass_NW, .compass_SW {
+        right: 17.5%;
+    }
+}
+@include screen-sm-down {
+    .compass, .compass_NE, .compass_SE, .compass_NW, .compass_SW {
+	    right: 21px;
+    }
+}
+.mobilecompass {
+	height: 42px;
+	width: 42px;
+	background-size: cover;
 }
 
 .compass_flat, .compass_S {
@@ -795,13 +800,6 @@
 	background-image: url(/js/3rdParty/dynmap/images/compass_W.png);
 }
 
-.mobilecompass {
-    top: 5px;
-    right: 10px;
-	height: 42px;
-	width: 42px;
-	background-size: cover;
-}
 
 /*******************
  * Chat
@@ -829,7 +827,6 @@
 
 .chatinput {
     position: absolute;
-	width: 608px;
 	height: 16px;
     bottom: -32px;
 	outline: none;
@@ -845,6 +842,22 @@
 	margin: 4px !important;
 	padding: 1px 1px 1px 15px !important;
 }
+@include screen-md-up {
+    .chatinput {
+        width: 608px;
+    }
+}
+@include screen-sm {
+    .chatinput {
+        width: 500px;
+    }
+}
+@include screen-xs {
+    .chatinput {
+        display: none;
+    }
+}
+
 
 .chatsendbutton {
     background-color: #bbb;
@@ -871,11 +884,25 @@
 	color: white;
 	overflow: hidden;
 
-	width: 622px;
 	max-height: 6em;
 
 	margin: 4px 4px 0px 4px;
 	padding: 1px;
+}
+@include screen-md-up {
+    .messagelist {
+        width: 608px;
+    }
+}
+@include screen-sm {
+    .messagelist {
+        width: 500px;
+    }
+}
+@include screen-xs {
+    .messagelist {
+        display: none;
+    }
 }
 .messagelist:empty {
     display: none;
@@ -991,10 +1018,6 @@
 
 .dynmap .coord-control-noy {
 	width: 60px;
-}
-
-.dynmap .coord-control .coord-control-label {
-
 }
 
 .dynmap .coord-control .coord-control-value {
