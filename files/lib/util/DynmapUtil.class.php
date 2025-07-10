@@ -45,17 +45,17 @@ class DynmapUtil
         $newworlds = [];
         foreach($worlds as $world) {
             if (static::hasAccesToWorld($serverID, $world['name'])) {
-                $newworlds[] = static::removeProtectedMaps($serverID, $world['name'], $world['maps']);
+                $newworlds[] = static::removeProtectedMaps($serverID, $world, $world['maps']);
             }
         }
         return $newworlds;
     }
 
-    public static function removeProtectedMaps(int $serverID, string $worldName, array $maps): array
+    public static function removeProtectedMaps(int $serverID, array $world, array $maps): array
     {
         $newmaps = [];
         foreach($maps as $map) {
-            if (static::hasAccesToMap($serverID, $worldName, $map['name'])) {
+            if (static::hasAccesToMap($serverID, $world['name'], $map['name'])) {
                 $newmaps[] = $map;
             }
         }
