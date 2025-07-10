@@ -6,9 +6,8 @@
 >
 	<import>
 		<categories>
-			<category name="dynmap" />
 			<category name="dynmap_general">
-				<parent>dynmap</parent>
+				<parent>minecraft</parent>
 			</category>
 		</categories>
 		<options>
