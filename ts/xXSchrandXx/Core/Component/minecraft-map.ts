@@ -22,6 +22,10 @@ export class MinecraftMapElement extends HTMLElement {
   constructor() {
     super();
 
+    if (window.ENABLE_DEBUG_MODE) {
+      console.info("Creating MinecrafttMapElement...");
+    }
+
     if (window.dynmap !== undefined) {
       throw new Error("A dynmap instance already exists. Only one minecraft-map element is allowed per page.");
     }
@@ -51,6 +55,9 @@ export class MinecraftMapElement extends HTMLElement {
     if (this.#rendered) {
       return;
     }
+    if (window.ENABLE_DEBUG_MODE) {
+      console.info("Rendering MinecrafttMapElement...");
+    }
 
     this.#validate();
 
@@ -66,6 +73,9 @@ export class MinecraftMapElement extends HTMLElement {
   }
 
   async #initMap(): Promise<void> {
+    if (window.ENABLE_DEBUG_MODE) {
+      console.info("Initializing MinecrafttMapElement " + this.id + "...");
+    }
     this.#container = document.createElement("div");
     this.#container.id = "mcmap" + this.id;
     this.#container.className = "dynmap";
@@ -85,8 +95,15 @@ export class MinecraftMapElement extends HTMLElement {
       "login-enabled": false,
       loginrequired: false
     }
+    if (window.ENABLE_DEBUG_MODE) {
+      console.info("Using Options: " + options);
+    }
 
     window.dynmap = new DynMap(options);
+
+    if (window.ENABLE_DEBUG_MODE) {
+      console.info("Created Dynmap: " + window.dynmap);
+    }
 
     if (this.#mapLoadedResolve) {
       this.#mapLoadedResolve();
