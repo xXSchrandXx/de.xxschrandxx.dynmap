@@ -144,8 +144,10 @@ DynMap.prototype = {
 			.appendTo(container);
 
 		// Set the title if the options specify one.
+		/* Disabled
 		if(me.options.title)
 			document.title = me.options.title;
+		*/
 
 		// Try to set the default zoom level based on the URL parameter.
 		var urlzoom = me.getIntParameterByName('zoom');
@@ -629,13 +631,15 @@ DynMap.prototype = {
 				me.alertbox.hide();
 
 				if(update.error) {
+					/* No login enabled
 					if(update.error == 'login-required') {
 						me.saveURL();
 						window.location = 'login.html';
 					}
 					else {
+					*/
 						alert(update.error);
-					}
+					//}
 					return;
 				}
 				if (me.lasttimestamp == update.timestamp) { // Same as last update?
@@ -970,6 +974,7 @@ DynMap.prototype = {
 		if(!me.options['login-enabled'])
 			return;
 
+		/* disabled
 		var login = L.Control.extend({
 			onAdd: function(map) {
 				this._container = L.DomUtil.create('div', 'logincontainer');
@@ -1012,6 +1017,7 @@ DynMap.prototype = {
 		});
 		var l = new login();
 		me.map.addControl(l);
+		*/
 	},
 	saveURL : function() {
 		if(window.location.href.indexOf('?') > 0) {
