@@ -9,6 +9,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use wcf\data\dynmap\standalonefiles\StandaloneFileList;
 use wcf\system\endpoint\GetRequest;
 use wcf\system\endpoint\IController;
+use wcf\system\exception\PermissionDeniedException;
 use wcf\util\DynmapUtil;
 
 #[GetRequest('/xxschrandxx/dynmap/{server:\d+}/update/{world}/{timestamp:\d+}')]
@@ -19,6 +20,10 @@ class GetUpdate implements IController
     {
         if (!isset($variables['server'])) {
             throw new \InvalidArgumentException('Missing required parameters: server');
+        }
+
+        if (!DynmapUtil::hasAccesToServer($variables['server'])) {
+            throw new PermissionDeniedException();
         }
 
         if (!isset($variables['world'])) {

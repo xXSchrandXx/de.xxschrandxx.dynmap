@@ -31,6 +31,10 @@ class PostSendMessage implements IController
             throw new PermissionDeniedException();
         }
 
+        if (!DynmapUtil::hasAccesToServer($variables['server'])) {
+            throw new PermissionDeniedException();
+        }
+
         $standaloneFileList = new StandaloneFileList();
         $standaloneFileList->getConditionBuilder()->add('ServerID = ? AND FileName = ?', [$variables['server'], 'dynmap_config.json']);
         $standaloneFileList->readObjects();

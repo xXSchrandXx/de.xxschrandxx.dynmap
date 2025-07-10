@@ -12,6 +12,7 @@ use wcf\data\dynmap\tiles\Tile;
 use wcf\http\Helper;
 use wcf\system\endpoint\GetRequest;
 use wcf\system\endpoint\IController;
+use wcf\system\exception\PermissionDeniedException;
 use wcf\system\request\RouteHandler;
 use wcf\util\DynmapUtil;
 
@@ -23,6 +24,10 @@ class GetTile implements IController
     {
         if (!isset($variables['server'])) {
             throw new \InvalidArgumentException('Missing required parameters: server');
+        }
+
+        if (!DynmapUtil::hasAccesToServer($variables['server'])) {
+            throw new PermissionDeniedException();
         }
 
         $parameters = Helper::mapApiParameters($request, TileParameters::class);

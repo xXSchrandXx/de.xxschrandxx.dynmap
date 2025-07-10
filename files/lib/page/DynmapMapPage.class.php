@@ -4,7 +4,9 @@ namespace wcf\page;
 
 use wcf\data\dynmap\servers\Server;
 use wcf\system\exception\IllegalLinkException;
+use wcf\system\exception\PermissionDeniedException;
 use wcf\system\WCF;
+use wcf\util\DynmapUtil;
 
 class DynmapMapPage extends AbstractPage
 {
@@ -32,6 +34,10 @@ class DynmapMapPage extends AbstractPage
 
         if (isset($_REQUEST['mid']) && \is_numeric($_REQUEST['mid'])) {
             $this->object = new Server((int)$_REQUEST['mid']);
+        }
+
+        if (!DynmapUtil::hasAccesToServer($_REQUEST['mid'])) {
+            throw new IllegalLinkException();
         }
 
         if (!isset($this->object)) {
