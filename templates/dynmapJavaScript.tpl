@@ -1,8 +1,6 @@
 {if !$__dynmapInit|isset}
 	{assign var=__dynmapInit value=1}
 
-	<link rel="stylesheet" type="text/css" href="{$__wcf->getPath('wcf')}js/3rdParty/dynmap/dynmap_style.css" media="screen" />
-
 	<script data-relocate="true">
 		{jsphrase name='wcf.global.leaflet.copy.openstreetmap'}
 		{jsphrase name='wcf.global.leaflet.copy.topplus_open'}
