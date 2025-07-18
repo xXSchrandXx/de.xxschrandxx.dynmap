@@ -1,14 +1,14 @@
 <?php
 
-namespace wcf\data\dynmap\standalonefiles;
+namespace wcf\data\dynmap\external\standalonefiles;
 
 use InvalidArgumentException;
-use wcf\data\dynmap\DynmapDatabaseObject;
+use wcf\data\dynmap\external\DynmapDatabaseObject;
 use wcf\util\JSON;
 
 /**
  * @property-read string $FileName
- * @property-read $ServerID
+ * @property-read $ServerID (always 0)
  * @property-read array|string $Content
  */
 class StandaloneFile extends DynmapDatabaseObject
@@ -17,11 +17,6 @@ class StandaloneFile extends DynmapDatabaseObject
      * @inheritDoc
      */
     protected static $databaseTableName = 'StandaloneFiles';
-
-    /**
-     * @inheritDoc
-     */
-    protected static $databaseTableIndexIsIdentity = false;
 
     protected $decodedContent;
 

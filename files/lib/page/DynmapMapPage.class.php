@@ -2,28 +2,18 @@
 
 namespace wcf\page;
 
-use wcf\data\dynmap\servers\Server;
+use wcf\data\dynmap\Server;
+use wcf\data\minecraft\Minecraft;
 use wcf\system\exception\IllegalLinkException;
-use wcf\system\exception\PermissionDeniedException;
+use wcf\system\exception\NamedUserException;
 use wcf\system\WCF;
-use wcf\util\DynmapUtil;
 
 class DynmapMapPage extends AbstractPage
 {
     /**
-     * @inheritDoc
-     */
-    public $neededModules = ['DYNMAP_GENERAL_HOST', 'DYNMAP_GENERAL_PORT', 'DYNMAP_GENERAL_USER', 'DYNMAP_GENERAL_PASSWORD', 'DYNMAP_GENERAL_NAME'];
-
-    /**
      * @var Server
      */
     public $object;
-
-    /**
-     * @var Map[]
-     */
-    public $maps = [];
 
     /**
      * @inheritDoc
@@ -32,16 +22,24 @@ class DynmapMapPage extends AbstractPage
     {
         parent::readParameters();
 
-        if (isset($_REQUEST['mid']) && \is_numeric($_REQUEST['mid'])) {
-            $this->object = new Server((int)$_REQUEST['mid']);
-        }
-
-        if (!DynmapUtil::hasAccesToServer($_REQUEST['mid'])) {
-            throw new IllegalLinkException();
+        if (isset($_REQUEST['id']) && \is_numeric($_REQUEST['id'])) {
+            $minecraft = new Minecraft((int)$_REQUEST['id']);
+            if (!$minecraft->minecraftID) {
+                throw new IllegalLinkException();
+            }
+            $this->object = new Server($minecraft);
         }
 
         if (!isset($this->object)) {
             throw new IllegalLinkException();
+        }
+
+        if (!$this->object->checkSchemaVersion()) {
+            throw new NamedUserException(WCF::getLanguage()->getDynamicVariable('wcf.page.dynmapmap.schemaVersion')); // TODO
+        }
+
+        if (!$this->object->hasAccesToServer($_REQUEST['id'])) {
+            throw new NamedUserException(WCF::getLanguage()->getDynamicVariable('wcf.page.dynmapmap.accessServer')); // TODO
         }
     }
 

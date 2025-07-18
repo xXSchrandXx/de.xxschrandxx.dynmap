@@ -1,8 +1,9 @@
 <?php
 
-namespace wcf\data\dynmap;
+namespace wcf\data\dynmap\external;
 
 use wcf\data\DatabaseObjectList;
+use wcf\data\dynmap\Server;
 
 /**
  * @property DynmapDatabaseObject[] $objects
@@ -11,6 +12,21 @@ use wcf\data\DatabaseObjectList;
  */
 class DynmapDatabaseObjectList extends DatabaseObjectList
 {
+
+    /**
+     * @var Server
+     */
+    protected $server;
+
+    /**
+     * @inheritDoc
+     */
+    public function __construct(Server $server)
+    {
+        parent::__construct();
+        $this->server = $server;
+    }
+
     /**
      * @inheritDoc
      */
@@ -20,7 +36,7 @@ class DynmapDatabaseObjectList extends DatabaseObjectList
                 FROM    " . $this->getDatabaseTableName() . " " . $this->getDatabaseTableAlias() . "
                 " . $this->sqlConditionJoins . "
                 " . $this->getConditionBuilder();
-        $statement = DynmapDB::getInstance()->getDB()->prepareStatement($sql);
+        $statement = $this->server->getDB()->prepareStatement($sql);
         $statement->execute($this->getConditionBuilder()->getParameters());
 
         return $statement->fetchSingleColumn();
@@ -49,7 +65,7 @@ class DynmapDatabaseObjectList extends DatabaseObjectList
                 " . $this->sqlJoins . "
                 " . $this->getConditionBuilder() . "
                 " . (!empty($this->sqlOrderBy) ? "ORDER BY " . $this->sqlOrderBy : '');
-        $statement = DynmapDB::getInstance()->getDB()->prepareStatement($sql, $this->sqlLimit, $this->sqlOffset);
+        $statement = $this->server->getDB()->prepareStatement($sql, $this->sqlLimit, $this->sqlOffset);
         $statement->execute($this->getConditionBuilder()->getParameters());
         $this->objects = $statement->fetchObjects(($this->objectClassName ?: $this->className));
 
@@ -65,6 +81,7 @@ class DynmapDatabaseObjectList extends DatabaseObjectList
         $objects = $this->indexToObject = [];
         $i = 0;
         foreach ($this->objects as $object) {
+            $object->setServer($this->server);
             $objectID = $i++;
             $objects[$objectID] = $object;
 

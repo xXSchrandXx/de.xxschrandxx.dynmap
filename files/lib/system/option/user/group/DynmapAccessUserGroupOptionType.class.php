@@ -3,7 +3,8 @@
 namespace wcf\system\option\user\group;
 
 use Exception;
-use wcf\data\dynmap\standalonefiles\StandaloneFileList;
+use wcf\data\dynmap\Server;
+use wcf\data\minecraft\MinecraftList;
 use wcf\data\option\Option;
 use wcf\system\option\MultiSelectOptionType;
 use wcf\system\option\user\group\IUserGroupOptionType;
@@ -16,24 +17,24 @@ class DynmapAccessUserGroupOptionType extends MultiSelectOptionType implements I
      */
     public function getSelectOptions(Option $option)
     {
+        $minecraftList = new MinecraftList();
+        $minecraftList->readObjects();
+        $minecrafts = $minecraftList->getObjects();
         $selectOptions = [];
-        try {
-            $configFileList = new StandaloneFileList();
-            $configFileList->getConditionBuilder()->add('FileName = ?', ['dynmap_config.json']);
-            $configFileList->readObjects();
-            $configs = $configFileList->getObjects();
-            foreach ($configs as $config) {
-                $configArray = $config->getContent();
-                $selectOptions[$config->ServerID] = 'Server ' . $config->ServerID;
-                foreach($configArray['worlds'] as $world) {
-                    $selectOptions[$config->ServerID . ":" . $world['name']] = '&nbsp;&nbsp;&nbsp;&nbsp;' . $world['title'] ?? $world['name'];
+        /** @var \wcf\data\minecraft\Minecraft $minecraft */
+        foreach ($minecrafts as $minecraft) {
+            try {
+                $server = new Server($minecraft);
+                $selectOptions[$minecraft->getObjectID()] = $minecraft->getTitle();
+                foreach($server->getWorlds() as $world) {
+                    $selectOptions[$minecraft->getObjectID() . ":" . $world['name']] = '&nbsp;&nbsp;&nbsp;&nbsp;' . $world['title'] ?? $world['name'];
                     foreach ($world['maps'] as $map) {
-                        $selectOptions[$config->ServerID . ":" . $world['name'] . ":" . $map['name']] =  '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $map['title'] ?? $map['name'];
+                        $selectOptions[$minecraft->getObjectID() . ":" . $world['name'] . ":" . $map['name']] =  '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $map['title'] ?? $map['name'];
                     }
                 }
+            } catch (Exception $e) {
+                // do nothing
             }
-        } catch (Exception $e) {
-            // do nothing
         }
 
         return $selectOptions;

@@ -1,8 +1,8 @@
 <?php
 
-namespace wcf\data\dynmap\maps;
+namespace wcf\data\dynmap\external\maps;
 
-use wcf\data\dynmap\DynmapDatabaseObjectList;
+use wcf\data\dynmap\external\DynmapDatabaseObjectList;
 
 /**
  * @method Map getSingleObject()

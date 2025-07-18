@@ -6,11 +6,12 @@ use Laminas\Diactoros\Response\JsonResponse;
 use Override;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use wcf\data\dynmap\standalonefiles\StandaloneFileList;
+use wcf\data\dynmap\Server;
+use wcf\data\minecraft\Minecraft;
 use wcf\system\endpoint\GetRequest;
 use wcf\system\endpoint\IController;
 use wcf\system\exception\PermissionDeniedException;
-use wcf\util\DynmapUtil;
+use wcf\system\exception\SystemException;
 
 #[GetRequest('/xxschrandxx/dynmap/{server:\d+}/configuration')]
 class GetConfiguration implements IController
@@ -19,26 +20,28 @@ class GetConfiguration implements IController
     public function __invoke(ServerRequestInterface $request, array $variables): ResponseInterface
     {
         if (!isset($variables['server'])) {
-            throw new \InvalidArgumentException('Missing required parameters: server');
+            throw new \InvalidArgumentException('server');
         }
 
-        if (!DynmapUtil::hasAccesToServer($variables['server'])) {
+        $minecraft = new Minecraft($variables['server']);
+
+        if (!$minecraft->minecraftID) {
+            throw new \InvalidArgumentException('server');
+        }
+
+        $server = new Server($minecraft);
+
+        if (!$server->checkSchemaVersion()) {
+            throw new SystemException('Unsupported SchameVersion');
+        }
+
+        if (!$server->hasAccesToServer()) {
             throw new PermissionDeniedException();
         }
 
-        $configFileList = new StandaloneFileList();
-        $configFileList->getConditionBuilder()->add('ServerID = ? AND FileName = ?', [$variables['server'], 'dynmap_config.json']);
-        $configFileList->readObjects();
-        $config = $configFileList->getSingleObject();
-        $configArray = $config->getContent();
-
-        $configArray['login-enabled'] = false;
-        $configArray['loginrequired'] = false;
-        $configArray['allowwebchat'] = DynmapUtil::canUseWebchat();
-        $configArray['webchat-requires-login'] = false;
-        $configArray['webchat-interval'] = DYNMAP_GENERAL_WEBCHAT_INTERVAL;
-
-        $configArray['worlds'] = DynmapUtil::removeProtrectedWorlds($variables['server'], $configArray['worlds']);
+        $configArray = $server->getConfig();
+        $configArray['allowwebchat'] = $server->canUseWebchat();
+        $configArray['worlds'] = $server->getAccessableWorlds();
 
         return new JsonResponse($configArray);
     }

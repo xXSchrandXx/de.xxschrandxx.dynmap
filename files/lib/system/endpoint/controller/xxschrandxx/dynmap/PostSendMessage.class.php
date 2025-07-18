@@ -6,15 +6,20 @@ use Laminas\Diactoros\Response\JsonResponse;
 use Override;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use wcf\data\dynmap\standalonefiles\StandaloneFileEditor;
-use wcf\data\dynmap\standalonefiles\StandaloneFileList;
+use wcf\data\dynmap\external\standalonefiles\StandaloneFileEditor;
+use wcf\data\dynmap\Server;
+use wcf\data\minecraft\Minecraft;
+use wcf\data\user\minecraft\MinecraftUserList;
+use wcf\data\user\minecraft\UserToMinecraftUserList;
 use wcf\http\Helper;
 use wcf\system\database\util\PreparedStatementConditionBuilder;
 use wcf\system\endpoint\IController;
 use wcf\system\endpoint\PostRequest;
 use wcf\system\exception\PermissionDeniedException;
-use wcf\util\DynmapUtil;
+use wcf\system\exception\SystemException;
+use wcf\system\WCF;
 use wcf\util\JSON;
+use wcf\util\MinecraftLinkerUtil;
 use wcf\util\UserUtil;
 
 #[PostRequest('/xxschrandxx/dynmap/{server:\d+}/sendmessage')]
@@ -24,21 +29,26 @@ class PostSendMessage implements IController
     public function __invoke(ServerRequestInterface $request, array $variables): ResponseInterface
     {
         if (!isset($variables['server'])) {
-            throw new \InvalidArgumentException('Missing required parameters: server');
+            throw new \InvalidArgumentException('server');
         }
 
-        if (!DynmapUtil::canUseWebchat()) {
+        $minecraft = new Minecraft($variables['server']);
+
+        if (!$minecraft->minecraftID) {
+            throw new \InvalidArgumentException('server');
+        }
+
+        $server = new Server($minecraft);
+
+        if (!$server->checkSchemaVersion()) {
+            throw new SystemException('Unsupported SchameVersion');
+        }
+
+        if (!$server->hasAccesToServer($variables['server'])) {
             throw new PermissionDeniedException();
         }
 
-        if (!DynmapUtil::hasAccesToServer($variables['server'])) {
-            throw new PermissionDeniedException();
-        }
-
-        $standaloneFileList = new StandaloneFileList();
-        $standaloneFileList->getConditionBuilder()->add('ServerID = ? AND FileName = ?', [$variables['server'], 'dynmap_config.json']);
-        $standaloneFileList->readObjects();
-        $config = $standaloneFileList->getSingleObject()->getContent();
+        $config = $server->getConfig();
 
         if (!isset($config['allowwebchat']) && !$config['allowwebchat']) {
             return new JsonResponse(['error' => 'Forbidden'], 403);
@@ -46,8 +56,8 @@ class PostSendMessage implements IController
 
         $msginterval = $config['webchat-interval'] ?? 2000;
 
-        if (isset($_SESSION['lastchat'])) {
-            $lastchat = $_SESSION['lastchat'];
+        if (isset($_SESSION['lastchat_' . $server->minecraftID])) {
+            $lastchat = $_SESSION['lastchat_' . $server->minecraftID];
         } else {
             $lastchat = 0;
         }
@@ -71,9 +81,34 @@ class PostSendMessage implements IController
         $data['ip'] = UserUtil::getIpAddress();
 
         // TODO event to set name via Minecraft-Linker
+        $user = WCF::getUser();
+        if ($user->userID) {
+            $userToMinecraftUserList = new UserToMinecraftUserList();
+            $userToMinecraftUserList->getConditionBuilder()->add('userID = ?', [$user->userID]);
+            $userToMinecraftUserList->readObjectIDs();
+            $userToMinecraftUserIDs = $userToMinecraftUserList->getObjectIDs();
+            $minecraftUserList = new MinecraftUserList();
+            $minecraftUserList->setObjectIDs($userToMinecraftUserIDs);
+            $minecraftUserList->readObjects();
+            $name = '';
+            /**
+             * When multiple MinecraftUser are linked, chain with | 
+             * @var \wcf\data\user\minecraft\MinecraftUser $minecraftUser
+             */
+            foreach($minecraftUserList->getObjects() as $minecraftUser) {
+                if (empty($name)) {
+                    $name = $minecraftUser->getMinecraftName();
+                } else {
+                    $name .= '|' . $minecraftUser->getMinecraftName();
+                }
+            }
+            if (!empty($name)) {
+                $data['name'] = $name;
+            }
+        }
 
-        $standaloneFileList = new StandaloneFileList();
-        $standaloneFileList->getConditionBuilder()->add('ServerID = ? AND FileName = ?', [$variables['server'], 'dynmap_webchat.json']);
+        $standaloneFileList = $server->getStandaloneFileList();
+        $standaloneFileList->getConditionBuilder()->add('FileName = ?', ['dynmap_webchat.json']);
         $standaloneFileList->readObjects();
         $webchat = $standaloneFileList->getSingleObject();
 
@@ -92,22 +127,23 @@ class PostSendMessage implements IController
         }
         $new_messages[] = $data;
 
-        $conditionBuilder = new PreparedStatementConditionBuilder();
-        $conditionBuilder->add('ServerID = ? AND FileName = ?', [$variables['server'], 'dynmap_webchat.json']);
         if ($gotold) {
-            $editor = new StandaloneFileEditor($webchat);
+            $conditionBuilder = new PreparedStatementConditionBuilder();
+            $conditionBuilder->add('FileName = ?', [0, 'dynmap_webchat.json']);
+            $editor = new StandaloneFileEditor($webchat, $server);
             $editor->update([
                 'Content' => JSON::encode($new_messages)
             ], $conditionBuilder);
         } else {
             StandaloneFileEditor::create([
+                'server' => $server,
                 'FileName' => 'dynmap_webchat.json',
-                'ServerID' => $variables['server'],
+                'ServerID' => 0,
                 'Content' => JSON::encode($new_messages)
             ]);
         }
 
-        $_SESSION['lastchat'] = time() + $msginterval;
+        $_SESSION['lastchat_' . $server->minecraftID] = time() + $msginterval;
 
         return new JsonResponse(['error' => 'none']);
     }

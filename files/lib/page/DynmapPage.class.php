@@ -3,29 +3,51 @@
 namespace wcf\page;
 
 use Laminas\Diactoros\Response\RedirectResponse;
-use wcf\data\dynmap\DynmapDB;
+use wcf\data\minecraft\MinecraftList;
 use wcf\system\request\LinkHandler;
 
-class DynmapPage extends AbstractPage
+class DynmapPage extends SortablePage
 {
     /**
      * @inheritDoc
      */
-    public $neededModules = ['DYNMAP_GENERAL_HOST', 'DYNMAP_GENERAL_PORT', 'DYNMAP_GENERAL_USER', 'DYNMAP_GENERAL_PASSWORD', 'DYNMAP_GENERAL_NAME'];
+    public $objectListClassName = MinecraftList::class;
 
     /**
      * @inheritDoc
      */
-    public function readParameters()
-    {
-        parent::readParameters();
+    public $defaultSortField = 'minecraftID';
 
-        $serverIDs = DynmapDB::getInstance()->getServerIDs();
-        if (count($serverIDs) <= 1) {
+    public $serverIDs = [];
+
+    public $servers = [];
+
+    /**
+     * @inheritDoc
+     */
+    protected function initObjectList()
+    {
+        parent::initObjectList();
+
+        $this->objectList->getConditionBuilder()->add('
+            dbHost IS NOT NULL AND dbHost != ? AND
+            dbPort IS NOT NULL AND dbPort != ? AND
+            dbUser IS NOT NULL AND dbUser != ? AND
+            dbPassword IS NOT NULL AND dbPassword != ? AND
+            dbName IS NOT NULL AND dbName != ?', ['', '', '', '', '']);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function readData()
+    {
+        parent::readData();
+
+        if ($this->items == 1) {
             // display server map
-            // using mid instead of id, cause it can be 0
-            return new RedirectResponse(LinkHandler::getInstance()->getControllerLink(DynmapMapPage::class, ['mid' => $serverIDs[0]]));
+            // using mid (mapid) instead of id, cause it can be 0 and 0 gets removed
+            return new RedirectResponse(LinkHandler::getInstance()->getControllerLink(DynmapMapPage::class, ['id' => $this->objectList->getSingleObject()->getObjectID()]));
         }
-        // display server list
     }
 }

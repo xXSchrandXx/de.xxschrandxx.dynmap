@@ -1,15 +1,16 @@
 <?php
 
-namespace wcf\data\dynmap\maps;
+namespace wcf\data\dynmap\external\maps;
 
-use wcf\data\dynmap\DynmapDatabaseObject;
+use wcf\data\DatabaseObject;
+use wcf\data\dynmap\external\DynmapDatabaseObject;
 
 /**
  * @property-read $ID
  * @property-read $WorldID
  * @property-read $MapID
  * @property-read $Variant
- * @property-read $ServerID
+ * @property-read $ServerID (always 0)
  */
 class Map extends DynmapDatabaseObject
 {
@@ -27,4 +28,12 @@ class Map extends DynmapDatabaseObject
      * @inheritDoc
      */
     protected static $databaseTableIndexName = 'ID';
+
+    /**
+     * @inheritDoc
+     */
+    public function getObjectID()
+    {
+        DatabaseObject::getObjectID();
+    }
 }

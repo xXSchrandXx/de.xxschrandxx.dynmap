@@ -1,8 +1,10 @@
 <?php
 
-namespace wcf\data\dynmap;
+namespace wcf\data\dynmap\external;
 
 use wcf\data\DatabaseObject;
+use wcf\data\dynmap\Server;
+use wcf\data\minecraft\Minecraft;
 
 class DynmapDatabaseObject extends DatabaseObject
 {
@@ -12,7 +14,13 @@ class DynmapDatabaseObject extends DatabaseObject
     protected static $databaseTableIndexIsIdentity = false;
 
     /**
+     * @var Server
+     */
+    protected $server;
+
+    /**
      * @inheritDoc
+     * @param $id minecraftID from Server
      */
     public function __construct(?int $id, ?array $row = null, ?self $object = null)
     {
@@ -40,6 +48,11 @@ class DynmapDatabaseObject extends DatabaseObject
      */
     public function getObjectID()
     {
-        throw new \BadMethodCallException('getObjectID is not supported for DDynmapDatabaseObject.');
+        $this->server->getObjectID();
+    }
+
+    public function setServer(Server $server)
+    {
+        $this->server = $server;
     }
 }

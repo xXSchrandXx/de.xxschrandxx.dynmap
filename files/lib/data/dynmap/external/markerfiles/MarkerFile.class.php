@@ -1,8 +1,8 @@
 <?php
 
-namespace wcf\data\dynmap\markerfiles;
+namespace wcf\data\dynmap\external\markerfiles;
 
-use wcf\data\dynmap\DynmapDatabaseObject;
+use wcf\data\dynmap\external\DynmapDatabaseObject;
 
 /**
  * @property-read $FileName
@@ -14,9 +14,4 @@ class MarkerFile extends DynmapDatabaseObject
      * @inheritDoc
      */
     protected static $databaseTableName = 'MarkerFiles';
-
-    /**
-     * @inheritDoc
-     */
-    protected static $databaseTableIndexIsIdentity = false;
 }

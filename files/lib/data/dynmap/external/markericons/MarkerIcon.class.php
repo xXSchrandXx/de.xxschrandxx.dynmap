@@ -1,8 +1,8 @@
 <?php
 
-namespace wcf\data\dynmap\markericons;
+namespace wcf\data\dynmap\external\markericons;
 
-use wcf\data\dynmap\DynmapDatabaseObject;
+use wcf\data\dynmap\external\DynmapDatabaseObject;
 
 /**
  * @property-read $IconName
@@ -14,9 +14,4 @@ class MarkerIcon extends DynmapDatabaseObject
      * @inheritDoc
      */
     protected static $databaseTableName = 'MarkerIcons';
-
-    /**
-     * @inheritDoc
-     */
-    protected static $databaseTableIndexIsIdentity = false;
 }

@@ -6,11 +6,12 @@ use Laminas\Diactoros\Response\JsonResponse;
 use Override;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use wcf\data\dynmap\standalonefiles\StandaloneFileList;
+use wcf\data\dynmap\Server;
+use wcf\data\minecraft\Minecraft;
 use wcf\system\endpoint\GetRequest;
 use wcf\system\endpoint\IController;
 use wcf\system\exception\PermissionDeniedException;
-use wcf\util\DynmapUtil;
+use wcf\system\exception\SystemException;
 
 #[GetRequest('/xxschrandxx/dynmap/{server:\d+}/update/{world}/{timestamp:\d+}')]
 class GetUpdate implements IController
@@ -19,10 +20,22 @@ class GetUpdate implements IController
     public function __invoke(ServerRequestInterface $request, array $variables): ResponseInterface
     {
         if (!isset($variables['server'])) {
-            throw new \InvalidArgumentException('Missing required parameters: server');
+            throw new \InvalidArgumentException('server');
         }
 
-        if (!DynmapUtil::hasAccesToServer($variables['server'])) {
+        $minecraft = new Minecraft($variables['server']);
+
+        if (!$minecraft->minecraftID) {
+            throw new \InvalidArgumentException('server');
+        }
+
+        $server = new Server($minecraft);
+
+        if (!$server->checkSchemaVersion()) {
+            throw new SystemException('Unsupported SchameVersion');
+        }
+
+        if (!$server->hasAccesToServer($variables['server'])) {
             throw new PermissionDeniedException();
         }
 
@@ -34,19 +47,12 @@ class GetUpdate implements IController
             throw new \InvalidArgumentException('Invalid world name: ' . $variables['world']);
         }
 
-        if (!DynmapUtil::hasAccesToWorld($variables['server'], $variables['world'])) {
+        if (!$server->hasAccesToWorld($variables['world'])) {
             return new JsonResponse(['error' => 'access-denied']);
         }
 
-        $standaloneFileList = new StandaloneFileList();
-        $standaloneFileList->getConditionBuilder()->add('ServerID = ? AND FileName = ?', [
-            $variables['server'],
-            'dynmap_' . $variables['world'] . '.json'
-        ]);
-        $standaloneFileList->readObjects();
-        $json = $standaloneFileList->getSingleObject()->getContent();
-
-        $json['players'] = DynmapUtil::removeHiddenPlayers($json['players']);
+        $json = $server->getWorldData($variables['world']);
+        $json['players'] = $server->getVisablePlayers($variables['world']);
 
         return new JsonResponse($json);
     }

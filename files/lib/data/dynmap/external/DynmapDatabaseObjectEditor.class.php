@@ -1,21 +1,42 @@
 <?php
 
-namespace wcf\data\dynmap;
+namespace wcf\data\dynmap\external;
 
 use wcf\data\DatabaseObjectEditor;
+use wcf\data\dynmap\Server;
 use wcf\system\database\util\PreparedStatementConditionBuilder;
 
 class DynmapDatabaseObjectEditor extends DatabaseObjectEditor
 {
+    /**
+     * @var Server
+     */
+    protected $server;
+
+    /**
+     * @inheritDoc
+     */
+    public function __construct(DynmapDatabaseObject $object, Server $server)
+    {
+        parent::__construct($object);
+
+        $this->server = $server;
+    }
+
     /**
      * @inheritDoc
      * @return null
      */
     public static function create(array $parameters = [])
     {
+        $server = null;
         $keys = $values = '';
         $statementParameters = [];
         foreach ($parameters as $key => $value) {
+            if ($value instanceof Server) {
+                $server = $value;
+                continue;
+            }
             if (!empty($keys)) {
                 $keys .= ',';
                 $values .= ',';
@@ -25,12 +46,15 @@ class DynmapDatabaseObjectEditor extends DatabaseObjectEditor
             $values .= '?';
             $statementParameters[] = $value;
         }
+        if ($server === null) {
+            throw new \BadMethodCallException('Server not set.');
+        }
 
         // save object
         $sql = "INSERT INTO " . static::getDatabaseTableName() . "
                             (" . $keys . ")
                 VALUES      (" . $values . ")";
-        $statement = DynmapDB::getInstance()->getDB()->prepareStatement($sql);
+        $statement = $server->getDB()->prepareStatement($sql);
         $statement->execute($statementParameters);
         
         return null;
@@ -62,7 +86,7 @@ class DynmapDatabaseObjectEditor extends DatabaseObjectEditor
         $sql = "UPDATE  " . static::getDatabaseTableName() . "
                 SET     " . $updateSQL . "
                 " . $conditionBuilder;
-        $statement = DynmapDB::getInstance()->getDB()->prepareStatement($sql);
+        $statement = $this->server->getDB()->prepareStatement($sql);
         $statement->execute($statementParameters);
     }
 
@@ -92,7 +116,7 @@ class DynmapDatabaseObjectEditor extends DatabaseObjectEditor
         $sql = "UPDATE  " . static::getDatabaseTableName() . "
                 SET     " . $updateSQL . "
                 " . $conditionBuilder;
-        $statement = DynmapDB::getInstance()->getDB()->prepareStatement($sql);
+        $statement = $this->server->getDB()->prepareStatement($sql);
         $statement->execute($statementParameters);
     }
 
@@ -101,7 +125,7 @@ class DynmapDatabaseObjectEditor extends DatabaseObjectEditor
      */
     public function delete(PreparedStatementConditionBuilder $conditionBuilder = new PreparedStatementConditionBuilder())
     {
-        $this->deleteAll([], $conditionBuilder);
+        throw new \BadMethodCallException('delete is not supported for DynmapDatabaseObjectEditor.');
     }
 
     
@@ -110,16 +134,6 @@ class DynmapDatabaseObjectEditor extends DatabaseObjectEditor
      */
     public static function deleteAll(array $objectIDs = [], PreparedStatementConditionBuilder $conditionBuilder = new PreparedStatementConditionBuilder())
     {
-        if (!empty($objectIDs)) {
-            throw new \InvalidArgumentException('Object IDs are not supported for deleteAll operation in DynmapDatabaseObjectEditor.');
-        }
-        if (empty($conditionBuilder->getParameters())) {
-            throw new \InvalidArgumentException('No conditions provided for delete operation.');
-        }
-        $sql = "DELETE FROM " . static::getDatabaseTableName() . "
-                " . $conditionBuilder;
-        $statement = DynmapDB::getInstance()->getDB()->prepareStatement($sql);
-        $statement->execute($conditionBuilder->getParameters());
-        return $statement->getAffectedRows();
+        throw new \BadMethodCallException('deleteAll is not supported for DynmapDatabaseObjectEditor.');
     }
 }

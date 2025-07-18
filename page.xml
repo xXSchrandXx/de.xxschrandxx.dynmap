@@ -16,6 +16,7 @@
 			<controller>wcf\page\DynmapMapPage</controller>
 			<name language="de">Dynmap</name>
 			<name language="en">Dynmap</name>
+			<requireObjectID>1</requireObjectID>
 		</page>
 	</import>
 </data>

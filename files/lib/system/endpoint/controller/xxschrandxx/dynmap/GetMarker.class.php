@@ -9,15 +9,14 @@ use Negotiation\Exception\InvalidArgument;
 use Override;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use wcf\data\dynmap\faces\FaceList;
-use wcf\data\dynmap\markerfiles\MarkerFileList;
-use wcf\data\dynmap\markericons\MarkerIconList;
+use wcf\data\dynmap\Server;
+use wcf\data\minecraft\Minecraft;
 use wcf\http\Helper;
 use wcf\system\endpoint\IController;
 use wcf\system\endpoint\GetRequest;
 use wcf\system\exception\PermissionDeniedException;
+use wcf\system\exception\SystemException;
 use wcf\system\request\RouteHandler;
-use wcf\util\DynmapUtil;
 
 #[GetRequest('/xxschrandxx/dynmap/{server:\d+}/marker')]
 class GetMarker implements IController
@@ -26,10 +25,22 @@ class GetMarker implements IController
     public function __invoke(ServerRequestInterface $request, array $variables): ResponseInterface
     {
         if (!isset($variables['server'])) {
-            throw new \InvalidArgumentException('Missing required parameters: server');
+            throw new \InvalidArgumentException('server');
         }
 
-        if (!DynmapUtil::hasAccesToServer($variables['server'])) {
+        $minecraft = new Minecraft($variables['server']);
+
+        if (!$minecraft->minecraftID) {
+            throw new \InvalidArgumentException('server');
+        }
+
+        $server = new Server($minecraft);
+
+        if (!$server->checkSchemaVersion()) {
+            throw new SystemException('Unsupported SchameVersion');
+        }
+
+        if (!$server->hasAccesToServer($variables['server'])) {
             throw new PermissionDeniedException();
         }
 
@@ -66,7 +77,7 @@ class GetMarker implements IController
                 $ft = 3;
             }
             $pn = explode(".", $parts[2]);
-            $faceList = new FaceList();
+            $faceList = $server->getFaceList();
             $faceList->getConditionBuilder()->add('PlayerName = ? AND TypeID = ?', [$pn[0], $ft]);
             $faceList->readObjects();
             $face = $faceList->getSingleObject();
@@ -86,7 +97,7 @@ class GetMarker implements IController
             $ext = $in[count($in) - 1];
             if (($ext == "json") && (strpos($name, "marker_") == 0)) {
                 $world = substr($name, 7);
-                $markerFileList = new MarkerFileList();
+                $markerFileList = $server->getMarkerFileList();
                 $markerFileList->getConditionBuilder()->add('FileName = ?', [$world]);
                 $markerFileList->readObjects();
                 $markerFile = $markerFileList->getSingleObject();
@@ -96,7 +107,7 @@ class GetMarker implements IController
                     $markerFile ? $markerFile->Content : '{}'
                 );
             } else {
-                $markerIconList = new MarkerIconList();
+                $markerIconList = $server->getMarkerIconList();
                 $markerIconList->getConditionBuilder()->add('IconName = ?', [$name]);
                 $markerIconList->readObjects();
                 $markerIcon = $markerIconList->getSingleObject();

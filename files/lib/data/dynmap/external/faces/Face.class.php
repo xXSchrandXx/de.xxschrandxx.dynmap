@@ -1,8 +1,8 @@
 <?php
 
-namespace wcf\data\dynmap\faces;
+namespace wcf\data\dynmap\external\faces;
 
-use wcf\data\dynmap\DynmapDatabaseObject;
+use wcf\data\dynmap\external\DynmapDatabaseObject;
 
 /**
  * @property-read $PlayerName
@@ -15,9 +15,4 @@ class Face extends DynmapDatabaseObject
      * @inheritDoc
      */
     protected static $databaseTableName = 'Faces';
-
-    /**
-     * @inheritDoc
-     */
-    protected static $databaseTableIndexIsIdentity = false;
 }

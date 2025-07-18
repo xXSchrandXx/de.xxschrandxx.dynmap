@@ -1,8 +1,8 @@
 <?php
 
-namespace wcf\data\dynmap\standalonefiles;
+namespace wcf\data\dynmap\external\standalonefiles;
 
-use wcf\data\dynmap\DynmapDatabaseObjectList;
+use wcf\data\dynmap\external\DynmapDatabaseObjectList;
 
 /**
  * @method StandaloneFile getSingleObject()

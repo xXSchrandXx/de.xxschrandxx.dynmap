@@ -1,8 +1,8 @@
 <?php
 
-namespace wcf\data\dynmap\faces;
+namespace wcf\data\dynmap\external\faces;
 
-use wcf\data\dynmap\DynmapDatabaseObjectList;
+use wcf\data\dynmap\external\DynmapDatabaseObjectList;
 
 /**
  * @method Face getSingleObject()

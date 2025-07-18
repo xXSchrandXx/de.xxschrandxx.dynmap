@@ -8,13 +8,14 @@ use Laminas\Diactoros\Response\RedirectResponse;
 use Override;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use wcf\data\dynmap\tiles\Tile;
+use wcf\data\dynmap\Server;
+use wcf\data\minecraft\Minecraft;
 use wcf\http\Helper;
 use wcf\system\endpoint\GetRequest;
 use wcf\system\endpoint\IController;
 use wcf\system\exception\PermissionDeniedException;
+use wcf\system\exception\SystemException;
 use wcf\system\request\RouteHandler;
-use wcf\util\DynmapUtil;
 
 #[GetRequest('/xxschrandxx/dynmap/{server:\d+}/tile')]
 class GetTile implements IController
@@ -23,10 +24,22 @@ class GetTile implements IController
     public function __invoke(ServerRequestInterface $request, array $variables): ResponseInterface
     {
         if (!isset($variables['server'])) {
-            throw new \InvalidArgumentException('Missing required parameters: server');
+            throw new \InvalidArgumentException('server');
         }
 
-        if (!DynmapUtil::hasAccesToServer($variables['server'])) {
+        $minecraft = new Minecraft($variables['server']);
+
+        if (!$minecraft->minecraftID) {
+            throw new \InvalidArgumentException('server');
+        }
+
+        $server = new Server($minecraft);
+
+        if (!$server->checkSchemaVersion()) {
+            throw new SystemException('Unsupported SchameVersion');
+        }
+
+        if (!$server->hasAccesToServer()) {
             throw new PermissionDeniedException();
         }
 
@@ -50,7 +63,7 @@ class GetTile implements IController
 
         $world = $parts[0];
 
-        if (!DynmapUtil::hasAccesToWorld($variables['server'], $world)) {
+        if (!$server->hasAccesToWorld($world)) {
             return new RedirectResponse(RouteHandler::getHost() . '/js/3rdParty/dynmap/images/blank.png');
         }
 
@@ -63,7 +76,7 @@ class GetTile implements IController
             $variant = 'DAY';
         }
 
-        if (!DynmapUtil::hasAccesToMap($variables['server'], $world, $prefix)) {
+        if (!$server->hasAccesToMap($world, $prefix)) {
             return new RedirectResponse(RouteHandler::getHost() . '/js/3rdParty/dynmap/images/blank.png');
         }
 
@@ -81,7 +94,10 @@ class GetTile implements IController
             return new RedirectResponse(RouteHandler::getHost() . '/js/3rdParty/dynmap/images/blank.png');
         }
 
-        $tile = Tile::getTile($world, $prefix, $variant, $x, $y, $zoom);
+        $tile = $server->getTile($world, $prefix, $variant, $x, $y, $zoom);
+        if ($tile === null) {
+            return new RedirectResponse(RouteHandler::getHost() . '/js/3rdParty/dynmap/images/blank.png');
+        }
         if (!$tile->HashCode) {
             return new RedirectResponse(RouteHandler::getHost() . '/js/3rdParty/dynmap/images/blank.png');
         }

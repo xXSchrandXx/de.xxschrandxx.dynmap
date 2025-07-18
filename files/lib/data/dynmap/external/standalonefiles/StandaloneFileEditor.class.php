@@ -1,8 +1,8 @@
 <?php
 
-namespace wcf\data\dynmap\standalonefiles;
+namespace wcf\data\dynmap\external\standalonefiles;
 
-use wcf\data\dynmap\DynmapDatabaseObjectEditor;
+use wcf\data\dynmap\external\DynmapDatabaseObjectEditor;
 
 class StandaloneFileEditor extends DynmapDatabaseObjectEditor
 {

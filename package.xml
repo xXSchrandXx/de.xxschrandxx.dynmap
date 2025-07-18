@@ -28,9 +28,11 @@
 
 	<instructions type="install">
 		<instruction type="file"/>
+		<instruction type="database">acp/database/install_de.xxschrandxx.dynmap.php</instruction>
 		<instruction type="template"/>
 		<instruction type="option"/>
 		<instruction type="page"/>
+		<instruction type="eventListener"/>
 		<instruction type="menuItem"/>
 		<instruction type="language"/>
 		<instruction type="userOption"/>

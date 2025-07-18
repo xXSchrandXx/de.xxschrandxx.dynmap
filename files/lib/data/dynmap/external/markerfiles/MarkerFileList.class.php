@@ -1,8 +1,8 @@
 <?php
 
-namespace wcf\data\dynmap\markerfiles;
+namespace wcf\data\dynmap\external\markerfiles;
 
-use wcf\data\dynmap\DynmapDatabaseObjectList;
+use wcf\data\dynmap\external\DynmapDatabaseObjectList;
 
 /**
  * @method MarkerFile getSingleObject()
