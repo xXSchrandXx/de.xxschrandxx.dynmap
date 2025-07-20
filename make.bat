@@ -1,5 +1,5 @@
 set PACKAGE_NAME=de.xxschrandxx.dynmap
-set PACKAGE_TYPES=(acptemplates files templates)
+set PACKAGE_TYPES=(files templates)
 
 call npm install
 

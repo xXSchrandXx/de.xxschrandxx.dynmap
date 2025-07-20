@@ -1,6 +1,8 @@
-{include file='header'}
+{include file='header' pageTitle=$object->getTitle() contentTitle=$object->getTitle()}
 
-<minecraft-map class="googleMap" id="{@$object->getObjectID()}"></minecraft-map>
+<div class="section">
+    <minecraft-map class="googleMap" id="{@$object->getObjectID()}"></minecraft-map>
+</div>
 
 {include file='dynmapJavaScript'}
 

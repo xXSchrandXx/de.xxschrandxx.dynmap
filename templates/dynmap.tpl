@@ -1,4 +1,4 @@
-{include file='header'}
+{include file='header' pageTitle='wcf.page.dynmapMap.title'|phrase contentTitle='wcf.page.dynmapMap.title'|phrase}
 
 {hascontent}
 	<div class="paginationTop">
@@ -8,28 +8,25 @@
 	</div>
 {/hascontent}
 
-{* Add Preview image and change to grid *}
-
 {if $objects|count}
-	<div class="section tabularBox">
-		<table class="table">
-			<thead>
-				<tr>
-					<th>{lang}wcf.global.objectID{/lang}</th>
-					<th>{lang}wcf.global.title{/lang}</th>
-				</tr>
-			</thead>
-			<tbody class="jsReloadPageWhenEmpty">
-				{foreach from=$objects item=object}
-					<a href="{link controller='DynmapMap' id=$object->getObjectID()}{/link}">
-						<tr>
-							<td class="columnID">{#$object->getObjectID()}</td>
-							<td class="columnTitle">{$object->getTitle()}</td>
-						</tr>
-					</a>
-				{/foreach}
-			</tbody>
-		</table>
+	<div class="section">
+		<div class="contentItemList">
+			{foreach from=$objects item=object}
+				<div class="contentItem contentItemMultiColumn">
+					<div class="contentItemLink">
+						<div class="contentItemImage contentItemImageLarge">
+							{icon name=$object->getIcon() size=64}
+							<div class="contentItemContent">
+								<h2 class="contentItemTitle"><a href="{link controller='DynmapMap' id=$object->getObjectID()}{/link}" class="contentItemTitleLink">{$object->getTitle()}</a></h2>
+								<div class="contentItemDescription">
+									{@$object->getDescription()}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			{/foreach}
+		</div>
 	</div>
 {else}
 	<p class="info">{lang}wcf.global.noItems{/lang}</p>

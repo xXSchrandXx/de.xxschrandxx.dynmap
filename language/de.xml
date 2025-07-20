@@ -5,6 +5,8 @@
 	xsi:schemaLocation="https://www.woltlab.com https://www.woltlab.com/XSD/6.0/language.xsd">
 	<import>
 		<category name="wcf.acp.form">
+			<item name="wcf.acp.form.minecraftAdd.icon"><![CDATA[Anzeige Icon]]></item>
+			<item name="wcf.acp.form.minecraftAdd.description"><![CDATA[Kurzbeschreibung]]></item>
 			<item name="wcf.acp.form.minecraftAdd.dbHost"><![CDATA[Dynmap Datenbank Host]]></item>
 			<item name="wcf.acp.form.minecraftAdd.dbHost.error"><![CDATA[Konnte nicht mit dem MySQL-Server verbinden.<br>(Meldung: {$msg})]]></item>
 			<item name="wcf.acp.form.minecraftAdd.dbPort"><![CDATA[Dynmap Datenbank Port]]></item>
@@ -24,6 +26,9 @@
 			<item name="wcf.endpoint.dynmap.joinmessage"><![CDATA[%playername% hat den Server betreten.]]></item>
 			<item name="wcf.endpoint.dynmap.quitmessage"><![CDATA[%playername% hat den Server verlassen.]]></item>
 			<item name="wcf.endpoint.dynmap.msg-chatnotallowed"><![CDATA[Es ist {if LANGUAGE_USE_INFORMAL_VARIANT}ihnen{else}dir{/if} nicht erlaubt, Chat-Nachrichten zu senden.]]></item>
+		</category>
+		<category name="wcf.page">
+			<item name="wcf.page.dynmapMap.title"><![CDATA[Dynmap Kartenübersicht]]></item>
 		</category>
 	</import>
 </language>

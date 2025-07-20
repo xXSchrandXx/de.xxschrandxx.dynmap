@@ -9,6 +9,10 @@ use wcf\system\database\table\PartialDatabaseTable;
 return [
     PartialDatabaseTable::create('wcf1_minecraft')
         ->columns([
+            VarcharDatabaseTableColumn::create('icon')
+                ->length(255),
+            VarcharDatabaseTableColumn::create('description')
+                ->length(255),
             VarcharDatabaseTableColumn::create('dbHost')
                 ->length(255),
             IntDatabaseTableColumn::create('dbPort'),

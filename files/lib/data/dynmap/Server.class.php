@@ -3,7 +3,6 @@
 namespace wcf\data\dynmap;
 
 use BadMethodCallException;
-use InvalidArgumentException;
 use Negotiation\Exception\InvalidArgument;
 use wcf\data\DatabaseObject;
 use wcf\data\DatabaseObjectDecorator;
@@ -32,6 +31,8 @@ use wcf\util\StringUtil;
  * @inheritDoc
  * @package  WoltLabSuite\Core\Data\Dynmap
  *
+ * @property-read string $icon
+ * @property-read string $description
  * @property-read string $dbHost
  * @property-read int $dbPort
  * @property-read string $dbUser
@@ -117,6 +118,22 @@ class Server extends DatabaseObjectDecorator
 
         // Modify config or worlds with event
         EventHandler::getInstance()->fireAction($this, 'construct');
+    }
+
+    /**
+     * @return fa-icon name
+     */
+    public function getIcon(): string
+    {
+        return explode(";", $this->icon)[0];
+    }
+
+    /**
+     * @return string description
+     */
+    public function getDescription(): string
+    {
+        return $this->description;
     }
 
     /**

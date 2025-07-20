@@ -3,8 +3,6 @@
 namespace wcf\data\dynmap\external\tiles;
 
 use wcf\data\dynmap\external\DynmapDatabaseObject;
-use wcf\data\dynmap\external\maps\Map;
-use wcf\data\dynmap\Server;
 
 /**
  * @property-read $MapID

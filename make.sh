@@ -1,6 +1,6 @@
 #/bin/bash
 PACKAGE_NAME=de.xxschrandxx.plan
-PACKAGE_TYPES=(acptemplates files templates)
+PACKAGE_TYPES=(files templates)
 
 npm install
 

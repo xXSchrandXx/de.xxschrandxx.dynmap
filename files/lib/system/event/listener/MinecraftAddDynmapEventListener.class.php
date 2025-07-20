@@ -5,6 +5,10 @@ use wcf\acp\form\MinecraftAddForm;
 use wcf\system\database\exception\DatabaseException;
 use wcf\system\database\MySQLDatabase;
 use wcf\system\form\builder\field\BooleanFormField;
+use wcf\system\form\builder\field\ColorFormField;
+use wcf\system\form\builder\field\DescriptionFormField;
+use wcf\system\form\builder\field\FileProcessorFormField;
+use wcf\system\form\builder\field\IconFormField;
 use wcf\system\form\builder\field\IntegerFormField;
 use wcf\system\form\builder\field\PasswordFormField;
 use wcf\system\form\builder\field\TextFormField;
@@ -21,11 +25,14 @@ class MinecraftAddDynmapEventListener implements IParameterizedEventListener {
 
     /**
      * @var MinecraftAddForm $eventObj
-     * TODO add Preview Image
      */
     protected function createForm($eventObj) {
         $formContainer = $eventObj->form->getNodeById('data');
         $formContainer->appendChildren([
+            IconFormField::create('icon')
+                ->label('wcf.acp.form.minecraftAdd.icon'),
+            DescriptionFormField::create()
+                ->label('wcf.acp.form.minecraftAdd.description'),
             TextFormField::create('dbHost')
                 ->label('wcf.acp.form.minecraftAdd.dbHost')
                 ->addValidator(new FormFieldValidator('connection', function (TextFormField $field) {

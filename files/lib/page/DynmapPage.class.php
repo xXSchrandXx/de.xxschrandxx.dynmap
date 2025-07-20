@@ -3,35 +3,15 @@
 namespace wcf\page;
 
 use Laminas\Diactoros\Response\RedirectResponse;
-use wcf\data\minecraft\MinecraftList;
+use wcf\data\dynmap\ServerList;
 use wcf\system\request\LinkHandler;
 
-class DynmapPage extends SortablePage
+class DynmapPage extends MultipleLinkPage
 {
     /**
      * @inheritDoc
      */
-    public $objectListClassName = MinecraftList::class;
-
-    /**
-     * @inheritDoc
-     */
-    public $defaultSortField = 'minecraftID';
-
-    /**
-     * @inheritDoc
-     */
-    protected function initObjectList()
-    {
-        parent::initObjectList();
-
-        $this->objectList->getConditionBuilder()->add('
-            dbHost IS NOT NULL AND dbHost != ? AND
-            dbPort IS NOT NULL AND dbPort != ? AND
-            dbUser IS NOT NULL AND dbUser != ? AND
-            dbPassword IS NOT NULL AND dbPassword != ? AND
-            dbName IS NOT NULL AND dbName != ?', ['', '', '', '', '']);
-    }
+    public $objectListClassName = ServerList::class;
 
     /**
      * @inheritDoc
