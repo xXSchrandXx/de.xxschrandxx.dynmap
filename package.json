@@ -5,11 +5,12 @@
         "eslint": "^8.48.0",
         "eslint-config-prettier": "^9.0.0",
         "leaflet": "^1.9.4",
+        "patch-package": "^8.0.0",
         "prettier": "^3.0.3",
         "typescript": "^5.2.2"
     },
     "dependencies": {
         "@types/dynmap": "^3.1.5",
-        "@woltlab/d.ts": "https://github.com/WoltLab/d.ts/tree/6.1"
+        "@woltlab/d.ts": "github:WoltLab/d.ts#6.1"
     }
 }

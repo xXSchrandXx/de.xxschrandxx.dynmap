@@ -17,6 +17,7 @@ class MinecraftAddDynmapEventListener implements IParameterizedEventListener {
 
     /**
      * @var MinecraftAddForm $eventObj
+     * TODO add Preview Image
      */
     protected function createForm($eventObj) {
         $formContainer = $eventObj->form->getNodeById('data');
@@ -36,6 +37,7 @@ class MinecraftAddDynmapEventListener implements IParameterizedEventListener {
                 ->description('wcf.acp.form.minecraftAdd.webchatEnabled.description'),
             IntegerFormField::create('webchatInterval')
                 ->label('wcf.acp.form.minecraftAdd.webchatInterval')
+                ->suffix('wcf.acp.option.suffix.seconds')
         ]);
     }
 }

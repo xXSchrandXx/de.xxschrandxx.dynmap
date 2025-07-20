@@ -18,10 +18,6 @@ class DynmapPage extends SortablePage
      */
     public $defaultSortField = 'minecraftID';
 
-    public $serverIDs = [];
-
-    public $servers = [];
-
     /**
      * @inheritDoc
      */

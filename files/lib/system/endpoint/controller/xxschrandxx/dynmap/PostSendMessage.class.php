@@ -17,14 +17,16 @@ use wcf\system\endpoint\IController;
 use wcf\system\endpoint\PostRequest;
 use wcf\system\exception\PermissionDeniedException;
 use wcf\system\exception\SystemException;
+use wcf\system\flood\FloodControl;
 use wcf\system\WCF;
 use wcf\util\JSON;
-use wcf\util\MinecraftLinkerUtil;
 use wcf\util\UserUtil;
 
 #[PostRequest('/xxschrandxx/dynmap/{server:\d+}/sendmessage')]
 class PostSendMessage implements IController
 {
+    public $floodgate = 'de.xxschrarndxx.wsc.dynmap.floodgate';
+
     #[Override]
     public function __invoke(ServerRequestInterface $request, array $variables): ResponseInterface
     {
@@ -48,40 +50,41 @@ class PostSendMessage implements IController
             throw new PermissionDeniedException();
         }
 
+        if (!WCF::getSession()->getPermission('user.minecraft.dynmap.canUseWebchat')) {
+            return new JsonResponse(['error' => 'Forbidden'], 403);
+        }
+
         $config = $server->getConfig();
 
         if (!isset($config['allowwebchat']) && !$config['allowwebchat']) {
             return new JsonResponse(['error' => 'Forbidden'], 403);
         }
 
-        $msginterval = $config['webchat-interval'] ?? 2000;
-
-        if (isset($_SESSION['lastchat_' . $server->minecraftID])) {
-            $lastchat = $_SESSION['lastchat_' . $server->minecraftID];
+        $msginterval = $config['webchat-interval'];
+        $user = WCF::getUser();
+        if ($user->userID) {
+            $lastchat = FloodControl::getInstance()->getUserLastTime($this->floodgate, $user->userID) ?? 0;
+            FloodControl::getInstance()->registerUserContent($this->floodgate, $user->userID);
         } else {
-            $lastchat = 0;
+            $ip = UserUtil::getIpAddress();
+            $lastchat = FloodControl::getInstance()->getGuestLastTime($this->floodgate, $ip) ?? 0;
+            FloodControl::getInstance()->registerGuestContent($this->floodgate, $ip);
+            unset($ip);
         }
 
-        if ($lastchat >= time()) {
+        if ($lastchat + $msginterval >= TIME_NOW) {
             return new JsonResponse(['error' => 'Forbidden'], 403);
         }
         
-
-        $micro = microtime(true);
-        $timestamp = round($micro * 1000.0);
-
         $parameters = Helper::mapApiParameters($request, SendMessageParameters::class);
         $data = [
             'message' => $parameters->message,
             'name' => $parameters->name
         ];
-
-
+        $micro = microtime(true);
+        $timestamp = round($micro * 1000.0);
         $data['timestamp'] = $timestamp;
-        $data['ip'] = UserUtil::getIpAddress();
 
-        // TODO event to set name via Minecraft-Linker
-        $user = WCF::getUser();
         if ($user->userID) {
             $userToMinecraftUserList = new UserToMinecraftUserList();
             $userToMinecraftUserList->getConditionBuilder()->add('userID = ?', [$user->userID]);
@@ -103,8 +106,11 @@ class PostSendMessage implements IController
                 }
             }
             if (!empty($name)) {
-                $data['name'] = $name;
+                $data['name'] = $data['userid'] = $name;
             }
+        }
+        if (!isset($data['name']) || empty($data['name'])) {
+            $data['userid'] = $data['name'] = WCF::getLanguage()->get('wcf.user.guest');
         }
 
         $standaloneFileList = $server->getStandaloneFileList();
@@ -114,22 +120,25 @@ class PostSendMessage implements IController
 
         $gotold = false;
         if (isset($webchat)) {
-            $old_messages = $webchat->getContent();
-            $gotold = true;
-        }
-
-        if (!empty($old_messages)) {
-            foreach ($old_messages as $message) {
-                if (($timestamp - $config['updaterate'] - 10000) < $message['timestamp']) {
-                    $new_messages[] = $message;
+            try {
+                $old_messages = $webchat->getContent();
+                if (isset($old_messages) && !empty($old_messages)) {
+                    foreach ($old_messages as $message) {
+                        if (($timestamp - $config['updaterate'] - 10000) < $message['timestamp']) {
+                            $new_messages[] = $message;
+                        }
+                    }
+                    $new_messages[] = $data;
                 }
+            $gotold = true;
+            } catch (\Exception $e) {
+                // Do nothing
             }
         }
-        $new_messages[] = $data;
 
         if ($gotold) {
             $conditionBuilder = new PreparedStatementConditionBuilder();
-            $conditionBuilder->add('FileName = ?', [0, 'dynmap_webchat.json']);
+            $conditionBuilder->add('FileName = ?', ['dynmap_webchat.json']);
             $editor = new StandaloneFileEditor($webchat, $server);
             $editor->update([
                 'Content' => JSON::encode($new_messages)
@@ -139,11 +148,9 @@ class PostSendMessage implements IController
                 'server' => $server,
                 'FileName' => 'dynmap_webchat.json',
                 'ServerID' => 0,
-                'Content' => JSON::encode($new_messages)
+                'Content' => JSON::encode([$data])
             ]);
         }
-
-        $_SESSION['lastchat_' . $server->minecraftID] = time() + $msginterval;
 
         return new JsonResponse(['error' => 'none']);
     }

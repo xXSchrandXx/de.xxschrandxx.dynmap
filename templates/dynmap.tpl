@@ -8,6 +8,8 @@
 	</div>
 {/hascontent}
 
+{* Add Preview image and change to grid *}
+
 {if $objects|count}
 	<div class="section tabularBox">
 		<table class="table">
