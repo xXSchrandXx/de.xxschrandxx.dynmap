@@ -112,9 +112,13 @@ class Server extends DatabaseObjectDecorator
         $this->config['webchat-requires-login'] = false;
         $this->config['webchat-interval'] = $this->webchatInterval;
         $this->config['joinmessage'] = WCF::getLanguage()->getDynamicVariable('wcf.endpoint.dynmap.joinmessage');
+        $this->config['msg-hiddennamejoin'] = WCF::getLanguage()->getDynamicVariable('wcf.endpoint.dynmap.msg-hiddennamejoin');
         $this->config['quitmessage'] = WCF::getLanguage()->getDynamicVariable('wcf.endpoint.dynmap.quitmessage');
+        $this->config['msg-hiddennamequit'] = WCF::getLanguage()->getDynamicVariable('wcf.endpoint.dynmap.msg-hiddennamequit');
         $this->config['spammessage'] = WCF::getLanguage()->getDynamicVariable('wcf.endpoint.dynmap.spammessage');
         $this->config['msg-chatnotallowed'] = WCF::getLanguage()->getDynamicVariable('wcf.endpoint.dynmap.msg-chatnotallowed');
+        $this->config['msg-players'] = WCF::getLanguage()->getDynamicVariable('wcf.endpoint.dynmap.msg-players');
+        $this->config['msg-maptypes'] = WCF::getLanguage()->getDynamicVariable('wcf.endpoint.dynmap.msg-maptypes');
 
         // Modify config or worlds with event
         EventHandler::getInstance()->fireAction($this, 'construct');

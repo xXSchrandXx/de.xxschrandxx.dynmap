@@ -7,6 +7,7 @@
 		<category name="wcf.acp.form">
 			<item name="wcf.acp.form.minecraftAdd.icon"><![CDATA[Display icon]]></item>
 			<item name="wcf.acp.form.minecraftAdd.description"><![CDATA[Short description]]></item>
+			<item name="wcf.acp.form.minecraftAdd.dbHost"><![CDATA[Dynmap database host]]></item>
 			<item name="wcf.acp.form.minecraftAdd.dbHost.error"><![CDATA[Could not connect to the MySQL server.<br>(Message: {$msg})]]></item>
 			<item name="wcf.acp.form.minecraftAdd.dbPort"><![CDATA[Dynmap database port]]></item>
 			<item name="wcf.acp.form.minecraftAdd.dbUser"><![CDATA[Dynmap database user]]></item>
@@ -23,8 +24,12 @@
 		<category name="wcf.endpoint.dynmap">
 			<item name="wcf.endpoint.dynmap.spammessage"><![CDATA[Error: {if LANGUAGE_USE_INFORMAL_VARIANT}You can{else}You can{/if} only send a message every %interval% seconds.]]></item>
 			<item name="wcf.endpoint.dynmap.joinmessage"><![CDATA[%playername% has joined the server.]]></item>
+			<item name="wcf.endpoint.dynmap.msg-hiddennamejoin"><![CDATA[A player has joined the server.]]></item>
 			<item name="wcf.endpoint.dynmap.quitmessage"><![CDATA[%playername% has left the server.]]></item>
+			<item name="wcf.endpoint.dynmap.msg-hiddennamequit"><![CDATA[A player has left the server.]]></item>
 			<item name="wcf.endpoint.dynmap.msg-chatnotallowed"><![CDATA[You are not allowed to send chat messages.]]></item>
+			<item name="wcf.endpoint.dynmap.msg-players"><![CDATA[Players]]></item>
+			<item name="wcf.endpoint.dynmap.msg-maptypes"><![CDATA[Map types]]></item>
 		</category>
 		<category name="wcf.page">
 			<item name="wcf.page.dynmapMap.title"><![CDATA[Dynmap map overview]]></item>

@@ -24,8 +24,12 @@
 		<category name="wcf.endpoint.dynmap">
 			<item name="wcf.endpoint.dynmap.spammessage"><![CDATA[Fehler: {if LANGUAGE_USE_INFORMAL_VARIANT}Sie können{else}Du kannst{/if} nur alle %interval% Sekunden eine Nachricht schreiben.]]></item>
 			<item name="wcf.endpoint.dynmap.joinmessage"><![CDATA[%playername% hat den Server betreten.]]></item>
+			<item name="wcf.endpoint.dynmap.msg-hiddennamejoin"><![CDATA[Ein Spieler hat den Server betreten.]]></item>
 			<item name="wcf.endpoint.dynmap.quitmessage"><![CDATA[%playername% hat den Server verlassen.]]></item>
+			<item name="wcf.endpoint.dynmap.msg-hiddennamequit"><![CDATA[Ein Spieler hat den Server verlassen.]]></item>
 			<item name="wcf.endpoint.dynmap.msg-chatnotallowed"><![CDATA[Es ist {if LANGUAGE_USE_INFORMAL_VARIANT}ihnen{else}dir{/if} nicht erlaubt, Chat-Nachrichten zu senden.]]></item>
+			<item name="wcf.endpoint.dynmap.msg-players"><![CDATA[Spieler]]></item>
+			<item name="wcf.endpoint.dynmap.msg-maptypes"><![CDATA[Karten Typen]]></item>
 		</category>
 		<category name="wcf.page">
 			<item name="wcf.page.dynmapMap.title"><![CDATA[Dynmap Kartenübersicht]]></item>
