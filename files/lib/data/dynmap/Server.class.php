@@ -23,6 +23,7 @@ use wcf\data\user\User;
 use wcf\data\user\UserProfile;
 use wcf\system\database\exception\DatabaseException;
 use wcf\system\database\MySQLDatabase;
+use wcf\system\event\EventHandler;
 use wcf\system\WCF;
 use wcf\util\JSON;
 use wcf\util\StringUtil;
@@ -54,12 +55,12 @@ class Server extends DatabaseObjectDecorator
     /**
      * @var array
      */
-    protected $config;
+    public $config;
 
     /**
      * @var array
      */
-    protected $worlds = [];
+    public $worlds = [];
 
     public function __construct(DatabaseObject $object)
     {
@@ -104,12 +105,18 @@ class Server extends DatabaseObjectDecorator
             }
         }
         // Override config values for WCF usage
-        $configArray['login-enabled'] = false;
-        $configArray['loginrequired'] = false;
-        $configArray['allowwebchat'] = $this->webchatEnabled;
-        $configArray['webchat-requires-login'] = false;
-        $configArray['webchat-interval'] = $this->webchatInterval;
+        $this->config['login-enabled'] = false;
+        $this->config['loginrequired'] = false;
+        $this->config['allowwebchat'] = $this->webchatEnabled;
+        $this->config['webchat-requires-login'] = false;
+        $this->config['webchat-interval'] = $this->webchatInterval;
+        $this->config['joinmessage'] = WCF::getLanguage()->getDynamicVariable('wcf.endpoint.dynmap.joinmessage');
+        $this->config['quitmessage'] = WCF::getLanguage()->getDynamicVariable('wcf.endpoint.dynmap.quitmessage');
+        $this->config['spammessage'] = WCF::getLanguage()->getDynamicVariable('wcf.endpoint.dynmap.spammessage');
+        $this->config['msg-chatnotallowed'] = WCF::getLanguage()->getDynamicVariable('wcf.endpoint.dynmap.msg-chatnotallowed');
 
+        // Modify config or worlds with event
+        EventHandler::getInstance()->fireAction($this, 'construct');
     }
 
     /**

@@ -2,10 +2,14 @@
 namespace wcf\system\event\listener;
 
 use wcf\acp\form\MinecraftAddForm;
+use wcf\system\database\exception\DatabaseException;
+use wcf\system\database\MySQLDatabase;
 use wcf\system\form\builder\field\BooleanFormField;
 use wcf\system\form\builder\field\IntegerFormField;
 use wcf\system\form\builder\field\PasswordFormField;
 use wcf\system\form\builder\field\TextFormField;
+use wcf\system\form\builder\field\validation\FormFieldValidationError;
+use wcf\system\form\builder\field\validation\FormFieldValidator;
 
 class MinecraftAddDynmapEventListener implements IParameterizedEventListener {
     /**
@@ -23,7 +27,24 @@ class MinecraftAddDynmapEventListener implements IParameterizedEventListener {
         $formContainer = $eventObj->form->getNodeById('data');
         $formContainer->appendChildren([
             TextFormField::create('dbHost')
-                ->label('wcf.acp.form.minecraftAdd.dbHost'),
+                ->label('wcf.acp.form.minecraftAdd.dbHost')
+                ->addValidator(new FormFieldValidator('connection', function (TextFormField $field) {
+                    /** @var IntegerFormField $dbPortField */
+                    $dbPortField = $field->getDocument()->getNodeById('dbPort');
+                    /** @var TextFormField $dbUserField */
+                    $dbUserField = $field->getDocument()->getNodeById('dbUser');
+                    /** @var TextFormField $dbPasswordField */
+                    $dbPasswordField = $field->getDocument()->getNodeById('dbPassword');
+                    /** @var TextFormField $dbNameField */
+                    $dbNameField = $field->getDocument()->getNodeById('dbName');
+                    try {
+                        new MySQLDatabase($field->getSaveValue(), $dbUserField->getSaveValue(), $dbPasswordField->getSaveValue(), $dbNameField->getSaveValue(), $dbPortField->getSaveValue());
+                    } catch (DatabaseException $e) {
+                        $field->addValidationError(
+                            new FormFieldValidationError('connect', 'wcf.acp.form.minecraftAdd.dbHost.error', ['msg' => $e->getMessage()])
+                        );
+                    }
+                })),
             IntegerFormField::create('dbPort')
                 ->label('wcf.acp.form.minecraftAdd.dbPort'),
             TextFormField::create('dbUser')
