@@ -7,7 +7,7 @@
 >
 	<packageinformation>
 		<!-- de.xxschrandxx.dynmap -->
-		<packagename>Implementation of "Dynmap®"</packagename>
+		<packagename>Implementation of Dynmap®</packagename>
 		<packagedescription>Implements Dynmap® into WSC.</packagedescription>
 		<packagedescription language="de">Implementiert Dynmap® ins WSC.</packagedescription>
 		<version>1.0.0</version>
