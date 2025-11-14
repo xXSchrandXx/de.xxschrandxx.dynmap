@@ -22,7 +22,6 @@ class DynmapPage extends MultipleLinkPage
 
         if ($this->items == 1) {
             // display server map
-            // using mid (mapid) instead of id, cause it can be 0 and 0 gets removed
             return new RedirectResponse(LinkHandler::getInstance()->getControllerLink(DynmapMapPage::class, ['id' => $this->objectList->getSingleObject()->getObjectID()]));
         }
     }

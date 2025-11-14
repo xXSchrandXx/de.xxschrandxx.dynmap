@@ -5,11 +5,9 @@ use wcf\acp\form\MinecraftAddForm;
 use wcf\system\database\exception\DatabaseException;
 use wcf\system\database\MySQLDatabase;
 use wcf\system\form\builder\field\BooleanFormField;
-use wcf\system\form\builder\field\ColorFormField;
 use wcf\system\form\builder\field\DescriptionFormField;
-use wcf\system\form\builder\field\FileProcessorFormField;
-use wcf\system\form\builder\field\IconFormField;
 use wcf\system\form\builder\field\IntegerFormField;
+use wcf\system\form\builder\field\media\SingleMediaSelectionFormField;
 use wcf\system\form\builder\field\PasswordFormField;
 use wcf\system\form\builder\field\TextFormField;
 use wcf\system\form\builder\field\validation\FormFieldValidationError;
@@ -29,8 +27,9 @@ class MinecraftAddDynmapEventListener implements IParameterizedEventListener {
     protected function createForm($eventObj) {
         $formContainer = $eventObj->form->getNodeById('data');
         $formContainer->appendChildren([
-            IconFormField::create('icon')
-                ->label('wcf.acp.form.minecraftAdd.icon'),
+            SingleMediaSelectionFormField::create('image')
+                ->label('wcf.acp.form.minecraftAdd.image')
+                ->imageOnly(),
             DescriptionFormField::create()
                 ->label('wcf.acp.form.minecraftAdd.description'),
             TextFormField::create('dynmapHost')

@@ -1,5 +1,6 @@
 <?php
 
+use wcf\system\database\table\column\BlobDatabaseTableColumn;
 use wcf\system\database\table\column\DefaultTrueBooleanDatabaseTableColumn;
 use wcf\system\database\table\column\IntDatabaseTableColumn;
 use wcf\system\database\table\column\NotNullInt10DatabaseTableColumn;
@@ -9,8 +10,7 @@ use wcf\system\database\table\PartialDatabaseTable;
 return [
     PartialDatabaseTable::create('wcf1_minecraft')
         ->columns([
-            VarcharDatabaseTableColumn::create('icon')
-                ->length(255),
+            IntDatabaseTableColumn::create('image'),
             VarcharDatabaseTableColumn::create('description')
                 ->length(255),
             VarcharDatabaseTableColumn::create('dynmapHost')

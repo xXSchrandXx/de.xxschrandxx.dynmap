@@ -15,12 +15,18 @@
 				<div class="contentItem contentItemMultiColumn">
 					<div class="contentItemLink">
 						<div class="contentItemImage contentItemImageLarge">
-							{icon name=$object->getIcon() size=64}
-							<div class="contentItemContent">
-								<h2 class="contentItemTitle"><a href="{link controller='DynmapMap' id=$object->getObjectID()}{/link}" class="contentItemTitleLink">{$object->getTitle()}</a></h2>
-								<div class="contentItemDescription">
-									{@$object->getDescription()}
-								</div>
+							<img
+								class="contentItemImageElement"
+								src="{if $object->getImage()}{$object->getImage()->getThumbnailLink('medium')}{else}{$__wcf->getStyleHandler()->getStyle()->getCoverPhotoURL()}{/if}"
+								height="{if $object->getImage()}{@$object->getImage()->getThumbnailHeight('medium')}{else}{@$__wcf->getStyleHandler()->getStyle()->getCoverPhotoHeight()}{/if}"
+								width="{if $object->getImage()}{@$object->getImage()->getThumbnailWidth('medium')}{else}{@$__wcf->getStyleHandler()->getStyle()->getCoverPhotoWidth()}{/if}"
+								loading="lazy"
+								alt="">
+						</div>
+						<div class="contentItemContent">
+							<h2 class="contentItemTitle"><a href="{link controller='DynmapMap' id=$object->getObjectID()}{/link}" class="contentItemTitleLink">{$object->getTitle()}</a></h2>
+							<div class="contentItemDescription">
+								{@$object->getDescription()}
 							</div>
 						</div>
 					</div>

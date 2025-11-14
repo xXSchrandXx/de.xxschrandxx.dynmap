@@ -14,6 +14,7 @@ use wcf\data\dynmap\external\markericons\MarkerIconList;
 use wcf\data\dynmap\external\standalonefiles\StandaloneFileList;
 use wcf\data\dynmap\external\tiles\Tile;
 use wcf\data\dynmap\external\tiles\TileList;
+use wcf\data\media\ViewableMedia;
 use wcf\data\minecraft\Minecraft;
 use wcf\data\user\minecraft\MinecraftUser;
 use wcf\data\user\minecraft\MinecraftUserList;
@@ -31,7 +32,7 @@ use wcf\util\StringUtil;
  * @inheritDoc
  * @package  WoltLabSuite\Core\Data\Dynmap
  *
- * @property-read string $icon
+ * @property-read ?int $image
  * @property-read string $description
  * @property-read string $dynmapHost
  * @property-read int $dynmapPort
@@ -51,7 +52,7 @@ class Server extends DatabaseObjectDecorator
     /**
      * @var MySQLDatabase
      */
-    private $dbObj;
+    private $dynmapObj;
 
     /**
      * @var array
@@ -125,11 +126,19 @@ class Server extends DatabaseObjectDecorator
     }
 
     /**
-     * @return fa-icon name
+     * @return ?int
      */
-    public function getIcon(): string
+    public function getImageID(): ?int
     {
-        return explode(";", $this->icon)[0];
+        return $this->image;
+    }
+
+    /**
+     * @return ?ViewableMedia
+     */
+    public function getImage(): ?ViewableMedia
+    {
+        return ViewableMedia::getMedia($this->image);
     }
 
     /**

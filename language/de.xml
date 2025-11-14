@@ -5,7 +5,7 @@
 	xsi:schemaLocation="https://www.woltlab.com https://www.woltlab.com/XSD/6.0/language.xsd">
 	<import>
 		<category name="wcf.acp.form">
-			<item name="wcf.acp.form.minecraftAdd.icon"><![CDATA[Anzeige Icon]]></item>
+			<item name="wcf.acp.form.minecraftAdd.image"><![CDATA[Anzeige Bild]]></item>
 			<item name="wcf.acp.form.minecraftAdd.description"><![CDATA[Kurzbeschreibung]]></item>
 			<item name="wcf.acp.form.minecraftAdd.dynmapHost"><![CDATA[Dynmap Datenbank Host]]></item>
 			<item name="wcf.acp.form.minecraftAdd.dynmapHost.error"><![CDATA[Konnte nicht mit dem MySQL-Server verbinden.<br>(Meldung: {$msg})]]></item>

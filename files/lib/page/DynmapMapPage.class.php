@@ -35,14 +35,17 @@ class DynmapMapPage extends AbstractPage
         }
 
         if (!$this->object->checkSchemaVersion()) {
-            throw new NamedUserException(WCF::getLanguage()->getDynamicVariable('wcf.page.dynmapmap.schemaVersion')); // TODO
+            throw new NamedUserException(WCF::getLanguage()->getDynamicVariable('wcf.page.dynmapmap.schemaVersion'));
         }
 
         if (!$this->object->hasAccesToServer($_REQUEST['id'])) {
-            throw new NamedUserException(WCF::getLanguage()->getDynamicVariable('wcf.page.dynmapmap.accessServer')); // TODO
+            throw new NamedUserException(WCF::getLanguage()->getDynamicVariable('wcf.page.dynmapmap.accessServer'));
         }
     }
 
+    /**
+     * @inheritDoc
+     */
     public function assignVariables()
     {
         parent::assignVariables();
