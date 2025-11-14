@@ -1,4 +1,4 @@
-// Modified by xXSchrandXx: Add WCF_PATH, remove Version check, modify path information
+// Modified by xXSchrandXx: Add WCF_PATH, remove Version check, modify path information, modify getLink()
 "use strict";
 //if (!console) console = { log: function() {} };
 
@@ -961,12 +961,26 @@ DynMap.prototype = {
 		var me = this;
 		var url = window.location.href;
 		var center = me.maptype.getProjection().fromLatLngToLocation(me.map.getCenter(), 64);
-		if(me.options['round-coordinates'])
-			url = url + "&worldname=" + me.world.name + "&mapname=" + me.maptype.options.name + "&zoom=" + me.map.getZoom() + "&x=" + center.x + "&y=" +
-				center.y + "&z=" + center.z;
-		else
-			url = url + "&worldname=" + me.world.name + "&mapname=" + me.maptype.options.name + "&zoom=" + me.map.getZoom() + "&x=" +
-				Math.round(center.x) + "&y=" + Math.round(center.y) + "&z=" + Math.round(center.z);
+		
+		var params = {
+			worldname: me.world.name,
+			mapname: me.maptype.options.name,
+			zoom: me.map.getZoom(),
+			x: me.options['round-coordinates'] ? center.x : Math.round(center.x),
+			y: me.options['round-coordinates'] ? center.y : Math.round(center.y),
+			z: me.options['round-coordinates'] ? center.z : Math.round(center.z)
+		};
+		
+		// Existierende Parameter ersetzen oder neue hinzufügen
+		$.each(params, function(key, value) {
+			var regex = new RegExp('[&?]' + key + '=[^&]*', 'g');
+			if(url.match(regex)) {
+				url = url.replace(regex, '&' + key + '=' + value);
+			} else {
+				url += '&' + key + '=' + value;
+			}
+		});
+		
 		return url;
 	},
 	initLogin: function() {
