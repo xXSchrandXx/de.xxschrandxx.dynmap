@@ -33,11 +33,11 @@ use wcf\util\StringUtil;
  *
  * @property-read string $icon
  * @property-read string $description
- * @property-read string $dbHost
- * @property-read int $dbPort
- * @property-read string $dbUser
- * @property-read string $dbPassword
- * @property-read string $dbName
+ * @property-read string $dynmapHost
+ * @property-read int $dynmapPort
+ * @property-read string $dynmapUser
+ * @property-read string $dynmapPassword
+ * @property-read string $dynmapName
  * @property-read bool $webchatEnabled
  * @property-read int $webchatInterval
  */
@@ -67,22 +67,22 @@ class Server extends DatabaseObjectDecorator
     {
         parent::__construct($object);
 
-        if (!isset($this->dbHost) || empty($this->dbHost) ||
-            !isset($this->dbUser) || empty($this->dbUser) ||
-            !isset($this->dbPassword) || empty($this->dbPassword) ||
-            !isset($this->dbName) || empty($this->dbName) ||
-            !isset($this->dbPort) || empty($this->dbPort)
+        if (!isset($this->dynmapHost) || empty($this->dynmapHost) ||
+            !isset($this->dynmapUser) || empty($this->dynmapUser) ||
+            !isset($this->dynmapPassword) || empty($this->dynmapPassword) ||
+            !isset($this->dynmapName) || empty($this->dynmapName) ||
+            !isset($this->dynmapPort) || empty($this->dynmapPort)
         ) {
             throw new InvalidArgument('Dynmap not supported.');
         }
 
         // create database connection
-        $this->dbObj = new MySQLDatabase(
-            $this->dbHost,
-            $this->dbUser,
-            $this->dbPassword,
-            $this->dbName,
-            $this->dbPort,
+        $this->dynmapObj = new MySQLDatabase(
+            $this->dynmapHost,
+            $this->dynmapUser,
+            $this->dynmapPassword,
+            $this->dynmapName,
+            $this->dynmapPort,
             false,
             false
         );
@@ -164,7 +164,7 @@ class Server extends DatabaseObjectDecorator
      */
     public function getDB(): MySQLDatabase
     {
-        return $this->dbObj;
+        return $this->dynmapObj;
     }
 
     /**

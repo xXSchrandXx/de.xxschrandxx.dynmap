@@ -20,10 +20,10 @@ class ServerList extends DatabaseObjectList
         parent::__construct();
         
         $this->conditionBuilder->add('
-            dbHost IS NOT NULL AND dbHost != ? AND
-            dbPort IS NOT NULL AND dbPort != ? AND
-            dbUser IS NOT NULL AND dbUser != ? AND
-            dbPassword IS NOT NULL AND dbPassword != ? AND
-            dbName IS NOT NULL AND dbName != ?', ['', '', '', '', '']);
+            dynmapHost IS NOT NULL AND dynmapHost != ? AND
+            dynmapPort IS NOT NULL AND dynmapPort != ? AND
+            dynmapUser IS NOT NULL AND dynmapUser != ? AND
+            dynmapPassword IS NOT NULL AND dynmapPassword != ? AND
+            dynmapName IS NOT NULL AND dynmapName != ?', ['', '', '', '', '']);
     }
 }

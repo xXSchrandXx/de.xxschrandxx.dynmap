@@ -13,14 +13,14 @@ return [
                 ->length(255),
             VarcharDatabaseTableColumn::create('description')
                 ->length(255),
-            VarcharDatabaseTableColumn::create('dbHost')
+            VarcharDatabaseTableColumn::create('dynmapHost')
                 ->length(255),
-            IntDatabaseTableColumn::create('dbPort'),
-            VarcharDatabaseTableColumn::create('dbUser')
+            IntDatabaseTableColumn::create('dynmapPort'),
+            VarcharDatabaseTableColumn::create('dynmapUser')
                 ->length(255),
-            VarcharDatabaseTableColumn::create('dbPassword')
+            VarcharDatabaseTableColumn::create('dynmapPassword')
                 ->length(255),
-            VarcharDatabaseTableColumn::create('dbName')
+            VarcharDatabaseTableColumn::create('dynmapName')
                 ->length(255),
             DefaultTrueBooleanDatabaseTableColumn::create('webchatEnabled'),
             NotNullInt10DatabaseTableColumn::create('webchatInterval')

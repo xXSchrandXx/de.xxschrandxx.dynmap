@@ -33,33 +33,33 @@ class MinecraftAddDynmapEventListener implements IParameterizedEventListener {
                 ->label('wcf.acp.form.minecraftAdd.icon'),
             DescriptionFormField::create()
                 ->label('wcf.acp.form.minecraftAdd.description'),
-            TextFormField::create('dbHost')
-                ->label('wcf.acp.form.minecraftAdd.dbHost')
+            TextFormField::create('dynmapHost')
+                ->label('wcf.acp.form.minecraftAdd.dynmapHost')
                 ->addValidator(new FormFieldValidator('connection', function (TextFormField $field) {
-                    /** @var IntegerFormField $dbPortField */
-                    $dbPortField = $field->getDocument()->getNodeById('dbPort');
-                    /** @var TextFormField $dbUserField */
-                    $dbUserField = $field->getDocument()->getNodeById('dbUser');
-                    /** @var TextFormField $dbPasswordField */
-                    $dbPasswordField = $field->getDocument()->getNodeById('dbPassword');
-                    /** @var TextFormField $dbNameField */
-                    $dbNameField = $field->getDocument()->getNodeById('dbName');
+                    /** @var IntegerFormField $dynmapPortField */
+                    $dynmapPortField = $field->getDocument()->getNodeById('dynmapPort');
+                    /** @var TextFormField $dynmapUserField */
+                    $dynmapUserField = $field->getDocument()->getNodeById('dynmapUser');
+                    /** @var TextFormField $dynmapPasswordField */
+                    $dynmapPasswordField = $field->getDocument()->getNodeById('dynmapPassword');
+                    /** @var TextFormField $dynmapNameField */
+                    $dynmapNameField = $field->getDocument()->getNodeById('dynmapName');
                     try {
-                        new MySQLDatabase($field->getSaveValue(), $dbUserField->getSaveValue(), $dbPasswordField->getSaveValue(), $dbNameField->getSaveValue(), $dbPortField->getSaveValue());
+                        new MySQLDatabase($field->getSaveValue(), $dynmapUserField->getSaveValue(), $dynmapPasswordField->getSaveValue(), $dynmapNameField->getSaveValue(), $dynmapPortField->getSaveValue());
                     } catch (DatabaseException $e) {
                         $field->addValidationError(
-                            new FormFieldValidationError('connect', 'wcf.acp.form.minecraftAdd.dbHost.error', ['msg' => $e->getMessage()])
+                            new FormFieldValidationError('connect', 'wcf.acp.form.minecraftAdd.dynmapHost.error', ['msg' => $e->getMessage()])
                         );
                     }
                 })),
-            IntegerFormField::create('dbPort')
-                ->label('wcf.acp.form.minecraftAdd.dbPort'),
-            TextFormField::create('dbUser')
-                ->label('wcf.acp.form.minecraftAdd.dbUser'),
-            PasswordFormField::create('dbPassword')
-                ->label('wcf.acp.form.minecraftAdd.dbPassword'),
-            TextFormField::create('dbName')
-                ->label('wcf.acp.form.minecraftAdd.dbName'),
+            IntegerFormField::create('dynmapPort')
+                ->label('wcf.acp.form.minecraftAdd.dynmapPort'),
+            TextFormField::create('dynmapUser')
+                ->label('wcf.acp.form.minecraftAdd.dynmapUser'),
+            PasswordFormField::create('dynmapPassword')
+                ->label('wcf.acp.form.minecraftAdd.dynmapPassword'),
+            TextFormField::create('dynmapName')
+                ->label('wcf.acp.form.minecraftAdd.dynmapName'),
             BooleanFormField::create('webchatEnabled')
                 ->label('wcf.acp.form.minecraftAdd.webchatEnabled')
                 ->description('wcf.acp.form.minecraftAdd.webchatEnabled.description'),
