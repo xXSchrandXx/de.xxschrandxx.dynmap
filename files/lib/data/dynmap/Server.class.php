@@ -64,6 +64,10 @@ class Server extends DatabaseObjectDecorator
      */
     public $worlds = [];
 
+    /**
+     * @inheritDoc
+     * @throws InvalidArgument if connection is not configured
+     */
     public function __construct(DatabaseObject $object)
     {
         parent::__construct($object);
@@ -311,6 +315,7 @@ class Server extends DatabaseObjectDecorator
     /**
      * Get servers world without protected maps
      * @return array
+     * @throws BadMethodCallException when world does not exist
      */
     public function getAccessableMaps(string $worldName): array
     {
@@ -331,6 +336,7 @@ class Server extends DatabaseObjectDecorator
     /**
      * Get visable players
      * @return array
+     * @throws BadMethodCallException when world does not exist
      */
     public function getVisablePlayers(string $worldName): array
     {
