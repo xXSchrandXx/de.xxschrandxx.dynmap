@@ -9,25 +9,6 @@
 		{jsphrase name='wcf.global.leaflet.copy.topplus_open_light_grau'}
 		{jsphrase name='wcf.global.leaflet.copy.custom'}
 
-		require.config({
-			paths: {
-				'leaflet': '3rdParty/leaflet/leaflet',
-				'dynmap': '3rdParty/dynmap/map',
-				'Core': 'WoltLabSuite/Core/Core',
-			},
-			shim: {
-				'leaflet': {
-					exports: 'L'
-				},
-				'dynmap': {
-					exports: 'D'
-				},
-				'Core': {
-					exports: 'Core'
-				}
-			}
-		});
-
 		require(['3rdParty/leaflet/leaflet', 'WoltLabSuite/Core/Core'], function(L, Core) {
 			require([
 				'3rdParty/dynmap/custommarker',
