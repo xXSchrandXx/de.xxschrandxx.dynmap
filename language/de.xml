@@ -18,8 +18,12 @@
 			<item name="wcf.acp.form.minecraftAdd.webchatInterval"><![CDATA[Pause zwischen webchat Nachrichten]]></item>
 		</category>
 		<category name="wcf.acp.group">
-			<item name="wcf.acp.group.option.user.minecraft.dynmap.access"></item>
-			<item name="wcf.acp.group.option.user.minecraft.dynmap.accessProtected"></item>
+			<item name="wcf.acp.group.option.category.user.minecraft.dynmap"><![CDATA[Dynmap]]></item>
+			<item name="wcf.acp.group.option.user.minecraft.dynmap.canUseWebchat"><![CDATA[Webchat verwenden]]></item>
+			<item name="wcf.acp.group.option.user.minecraft.dynmap.noAccess"><![CDATA[Nicht erlaubte Server/Welten]]></item>
+			<item name="wcf.acp.group.option.user.profile.canHideDynmap"><![CDATA[Kann sich auf Dynmap verstecken]]></item>
+			<item name="wcf.acp.group.option.category.mod.minecraft.dynmap"><![CDATA[Dynmap]]></item>
+			<item name="wcf.acp.group.option.mod.minecraft.dynmap.canSeeAllPlayers"><![CDATA[Kann alle Spieler auf Dynmap sehen]]></item>
 		</category>
 		<category name="wcf.endpoint.dynmap">
 			<item name="wcf.endpoint.dynmap.spammessage"><![CDATA[Fehler: {if LANGUAGE_USE_INFORMAL_VARIANT}Sie können{else}Du kannst{/if} nur alle %interval% Sekunden eine Nachricht schreiben.]]></item>
@@ -30,6 +34,9 @@
 			<item name="wcf.endpoint.dynmap.msg-chatnotallowed"><![CDATA[Es ist {if LANGUAGE_USE_INFORMAL_VARIANT}ihnen{else}dir{/if} nicht erlaubt, Chat-Nachrichten zu senden.]]></item>
 			<item name="wcf.endpoint.dynmap.msg-players"><![CDATA[Spieler]]></item>
 			<item name="wcf.endpoint.dynmap.msg-maptypes"><![CDATA[Karten Typen]]></item>
+		</category>
+		<category name="wcf.user.option">
+			<item name="wcf.user.option.canViewDynmap"><![CDATA[Kann auf Dynmap sehen]]></item>
 		</category>
 		<category name="wcf.page">
 			<item name="wcf.page.dynmapMap.title"><![CDATA[Dynmap Kartenübersicht]]></item>
