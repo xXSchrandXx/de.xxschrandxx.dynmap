@@ -371,7 +371,7 @@ class Server extends DatabaseObjectDecorator
 
         $hidden = [];
         $ignoredUserIds = [];
-        $currentUser = WCF::getUser();
+        $currentUser = WCF::getSession()->getUser();
         if (isset($currentUser)) {
             $currentUserProfile = new UserProfile($currentUser);
             $ignoredUserIds = $currentUserProfile->getIgnoredUsers();
