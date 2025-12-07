@@ -20,7 +20,7 @@
 		<category name="wcf.acp.group">
 			<item name="wcf.acp.group.option.category.user.minecraft.dynmap"><![CDATA[Dynmap]]></item>
 			<item name="wcf.acp.group.option.user.minecraft.dynmap.canUseWebchat"><![CDATA[Webchat verwenden]]></item>
-			<item name="wcf.acp.group.option.user.minecraft.dynmap.noAccess"><![CDATA[Nicht erlaubte Server/Welten]]></item>
+			<item name="wcf.acp.group.option.user.minecraft.dynmap.noAccess"><![CDATA[Nicht erlaubte Server/Welten/Karten]]></item>
 			<item name="wcf.acp.group.option.user.profile.canHideDynmap"><![CDATA[Kann sich auf Dynmap verstecken]]></item>
 			<item name="wcf.acp.group.option.category.mod.minecraft.dynmap"><![CDATA[Dynmap]]></item>
 			<item name="wcf.acp.group.option.mod.minecraft.dynmap.canSeeAllPlayers"><![CDATA[Kann alle Spieler auf Dynmap sehen]]></item>
