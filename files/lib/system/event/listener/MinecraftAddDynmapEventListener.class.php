@@ -52,7 +52,8 @@ class MinecraftAddDynmapEventListener implements IParameterizedEventListener {
                     }
                 })),
             IntegerFormField::create('dynmapPort')
-                ->label('wcf.acp.form.minecraftAdd.dynmapPort'),
+                ->label('wcf.acp.form.minecraftAdd.dynmapPort')
+                ->value(3306),
             TextFormField::create('dynmapUser')
                 ->label('wcf.acp.form.minecraftAdd.dynmapUser'),
             PasswordFormField::create('dynmapPassword')
@@ -61,10 +62,12 @@ class MinecraftAddDynmapEventListener implements IParameterizedEventListener {
                 ->label('wcf.acp.form.minecraftAdd.dynmapName'),
             BooleanFormField::create('webchatEnabled')
                 ->label('wcf.acp.form.minecraftAdd.webchatEnabled')
-                ->description('wcf.acp.form.minecraftAdd.webchatEnabled.description'),
+                ->description('wcf.acp.form.minecraftAdd.webchatEnabled.description')
+                ->value(true),
             IntegerFormField::create('webchatInterval')
                 ->label('wcf.acp.form.minecraftAdd.webchatInterval')
                 ->suffix('wcf.acp.option.suffix.seconds')
+                ->value(5)
         ]);
     }
 }
