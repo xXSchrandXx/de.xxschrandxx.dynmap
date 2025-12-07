@@ -1,5 +1,5 @@
 #/bin/bash
-PACKAGE_NAME=de.xxschrandxx.plan
+PACKAGE_NAME=de.xxschrandxx.dynmap
 PACKAGE_TYPES=(files templates)
 
 npm install
