@@ -2,6 +2,7 @@
 namespace wcf\system\event\listener;
 
 use wcf\acp\form\MinecraftAddForm;
+use wcf\data\dynmap\Server;
 use wcf\system\database\exception\DatabaseException;
 use wcf\system\database\MySQLDatabase;
 use wcf\system\form\builder\field\BooleanFormField;
@@ -44,7 +45,14 @@ class MinecraftAddDynmapEventListener implements IParameterizedEventListener {
                     /** @var TextFormField $dynmapNameField */
                     $dynmapNameField = $field->getDocument()->getNodeById('dynmapName');
                     try {
-                        new MySQLDatabase($field->getSaveValue(), $dynmapUserField->getSaveValue(), $dynmapPasswordField->getSaveValue(), $dynmapNameField->getSaveValue(), $dynmapPortField->getSaveValue());
+                        $sql = new MySQLDatabase($field->getSaveValue(), $dynmapUserField->getSaveValue(), $dynmapPasswordField->getSaveValue(), $dynmapNameField->getSaveValue(), $dynmapPortField->getSaveValue());
+                        $statement = $sql->prepareStatement('SELECT level FROM SchemaVersion');
+                        $statement->execute();
+                        if ($statement->fetchSingleColumn() != Server::SCHEMAVERSION) {
+                            $field->addValidationError(
+                                new FormFieldValidationError('connect', 'wcf.acp.form.minecraftAdd.dynmapHost.error', ['msg' => 'Unsupported Dynmap Version'])
+                            );
+                        }
                     } catch (DatabaseException $e) {
                         $field->addValidationError(
                             new FormFieldValidationError('connect', 'wcf.acp.form.minecraftAdd.dynmapHost.error', ['msg' => $e->getMessage()])

@@ -45,6 +45,11 @@ use wcf\util\StringUtil;
 class Server extends DatabaseObjectDecorator
 {
     /**
+     * supported database schema version of dynmap
+     */
+    public const SCHEMAVERSION = 6;
+
+    /**
      * @inheritDoc
      */
     protected static $baseClass = Minecraft::class;
@@ -163,7 +168,7 @@ class Server extends DatabaseObjectDecorator
         try {
             $statement = $this->getDB()->prepareStatement('SELECT level FROM SchemaVersion');
             $statement->execute();
-            if ($statement->fetchSingleColumn() == 6) {
+            if ($statement->fetchSingleColumn() == self::SCHEMAVERSION) {
                 $supported = true;
             }
         } catch (DatabaseException $e) {
