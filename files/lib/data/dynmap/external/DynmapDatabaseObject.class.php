@@ -4,7 +4,6 @@ namespace wcf\data\dynmap\external;
 
 use wcf\data\DatabaseObject;
 use wcf\data\dynmap\Server;
-use wcf\data\minecraft\Minecraft;
 
 class DynmapDatabaseObject extends DatabaseObject
 {

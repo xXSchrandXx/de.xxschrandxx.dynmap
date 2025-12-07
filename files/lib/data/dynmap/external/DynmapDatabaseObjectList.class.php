@@ -81,7 +81,9 @@ class DynmapDatabaseObjectList extends DatabaseObjectList
         $objects = $this->indexToObject = [];
         $i = 0;
         foreach ($this->objects as $object) {
-            $object->setServer($this->server);
+            if ($object instanceof DynmapDatabaseObject) {
+                $object->setServer($this->server);
+            }
             $objectID = $i++;
             $objects[$objectID] = $object;
 
