@@ -343,6 +343,10 @@ class Server extends DatabaseObjectDecorator
             return $players;
         }
 
+        if (empty($players)) {
+            return $players;
+        }
+
         $accounts = [];
         foreach ($players as $player) {
             $accounts[] = $player['account'];
@@ -355,12 +359,42 @@ class Server extends DatabaseObjectDecorator
         $linkedList->readObjects();
         $linked = $linkedList->getObjects();
 
+        if (empty($linked)) {
+            return $players;
+        }
+
         $hidden = [];
+        $ignoredUserIds = [];
+        $currentUser = WCF::getUser();
+        if (isset($currentUser)) {
+            $currentUserProfile = new UserProfile($currentUser);
+            $ignoredUserIds = $currentUserProfile->getIgnoredUsers();
+        }
         /** @var \wcf\data\user\minecraft\MinecraftUser $minecraftUser */
         foreach ($linked as $minecraftUser) {
             $userProfile = new UserProfile(new User($minecraftUser->userID));
-            if (!$userProfile->isAccessible('canViewDynmap', WCF::getUser()->userID)) {
-                $hidden[] = $minecraftUser->minecraftName;
+            // check weather someone is not accessible
+            if (!$userProfile->isAccessible('canViewDynmap', $userProfile->userID)) {
+                if (!in_array($minecraftUser->minecraftName, $hidden)) {
+                    $hidden[] = $minecraftUser->minecraftName;
+                    continue;
+                }
+            }
+            if (isset($currentUser)) {
+                // check weather the current user is getting ignored by someone else
+                if (in_array($currentUser->userID, $userProfile->getIgnoredByUsers())) {
+                    if (!in_array($minecraftUser->minecraftName, $hidden)) {
+                        $hidden[] = $minecraftUser->minecraftName;
+                        continue;
+                    }
+                }
+                // check weather the current user ignores someone
+                if (in_array($minecraftUser->userID, $ignoredUserIds)) {
+                    if (!in_array($minecraftUser->minecraftName, $hidden)) {
+                        $hidden[] = $minecraftUser->minecraftName;
+                        continue;
+                    }
+                }
             }
         }
         $filtered = array_filter($players, function($player) use ($hidden) {
