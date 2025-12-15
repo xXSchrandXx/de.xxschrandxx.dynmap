@@ -27,9 +27,9 @@ class DynmapAccessUserGroupOptionType extends MultiSelectOptionType implements I
                 $server = new Server($minecraft);
                 $selectOptions[$minecraft->getObjectID()] = $minecraft->getTitle();
                 foreach($server->getWorlds() as $world) {
-                    $selectOptions[$minecraft->getObjectID() . ":" . $world['name']] = '&nbsp;&nbsp;&nbsp;&nbsp;' . $world['title'] ?? $world['name'];
+                    $selectOptions[$minecraft->getObjectID() . ":" . $world['name']] = '&nbsp;&nbsp;&nbsp;&nbsp;' . htmlspecialchars($world['title'] ?? $world['name']);
                     foreach ($world['maps'] as $map) {
-                        $selectOptions[$minecraft->getObjectID() . ":" . $world['name'] . ":" . $map['name']] =  '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $map['title'] ?? $map['name'];
+                        $selectOptions[$minecraft->getObjectID() . ":" . $world['name'] . ":" . $map['name']] =  '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . htmlspecialchars($map['title'] ?? $map['name']);
                     }
                 }
             } catch (Exception $e) {
