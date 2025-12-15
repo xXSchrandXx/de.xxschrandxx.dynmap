@@ -23,10 +23,6 @@ class GetTile implements IController
     #[Override]
     public function __invoke(ServerRequestInterface $request, array $variables): ResponseInterface
     {
-        if (!isset($variables['server'])) {
-            throw new \InvalidArgumentException('server');
-        }
-
         $minecraft = new Minecraft($variables['server']);
 
         if (!$minecraft->minecraftID) {
