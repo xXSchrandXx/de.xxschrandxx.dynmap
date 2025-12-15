@@ -3,7 +3,6 @@
 namespace wcf\data\dynmap;
 
 use BadMethodCallException;
-use Negotiation\Exception\InvalidArgument;
 use wcf\data\DatabaseObject;
 use wcf\data\DatabaseObjectDecorator;
 use wcf\data\dynmap\external\faces\FaceList;
