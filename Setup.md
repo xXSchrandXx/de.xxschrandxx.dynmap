@@ -192,9 +192,10 @@
     </details>
 9. Now we will disable the internal webserver since we no longer need it. Search for "disable-webserver" and change the value from `false` to `true`.
 10. (Optional) Uncomment `publicURL` and set it to the desired URL of the website.
-11. Restart the Minecraft server.
-
-(Additional configuration options at https://github.com/webbukkit/dynmap/wiki)
+11. Restart the Minecraft server. (Additional configuration options at https://github.com/webbukkit/dynmap/wiki)
+12. Edit the Minecraft servers in the WSC administration area. Set the Dynmap database-host, -port, -user, -password, and -name.
+    (Optional) Add a display image or short description.
+13. (Optional) Edit the group permissions in the WSC administration area.
 
 ## German
 1. Stoppe den Minecraft-Server.
@@ -387,6 +388,7 @@
     </details>
 9. Jetzt werden wir den internen Webserver deaktivieren, da wir ihn nicht mehr benötigen. Suche „disable-webserver“ und änder den Wert von `false` in `true`.
 10. (Optional) Entferne die Auskommentierung von `publicURL` und setze es zu der gewünschten URL der Webseite.
-11. Starte den Minecraft-Server neu.
-
-(Weitere Einstellungsmöglichkeiten unter https://github.com/webbukkit/dynmap/wiki)
+11. Starte den Minecraft-Server neu. (Weitere Einstellungsmöglichkeiten von Dynmap unter https://github.com/webbukkit/dynmap/wiki)
+12. Bearbeite im Administationsbereich des WSC die Minecraft-Server. Setze Dynmap Datenbank-Host, -Port, -Benutzer, -Passwort und -Name.
+    (Optional) Füge ein Anzeigebild bzw. Kurzbeschreibung hinzu.
+13. (Optional) Bearbeite im Administationsbereich des WSC die Gruppenberechtigungen.
