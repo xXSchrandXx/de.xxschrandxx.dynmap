@@ -8,12 +8,14 @@
 		<page identifier="de.xxschrandxx.dynmapPage">
 			<pageType>system</pageType>
 			<controller>wcf\page\DynmapPage</controller>
-			<name language="de">Dynmap</name>
-			<name language="en">Dynmap</name>
+			<name language="de">Dynmap Liste</name>
+			<name language="en">Dynmap list</name>
 		</page>
 		<page identifier="de.xxschrandxx.dynmapMapPage">
 			<pageType>system</pageType>
 			<controller>wcf\page\DynmapMapPage</controller>
+			<parent>de.xxschrandxx.dynmapPage</parent>
+			<hasFixedParent>1</hasFixedParent>
 			<name language="de">Dynmap</name>
 			<name language="en">Dynmap</name>
 			<requireObjectID>1</requireObjectID>
