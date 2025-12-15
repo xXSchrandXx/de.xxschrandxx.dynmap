@@ -3,6 +3,7 @@
 namespace wcf\data\dynmap;
 
 use BadMethodCallException;
+use InvalidArgumentException;
 use wcf\data\DatabaseObject;
 use wcf\data\DatabaseObjectDecorator;
 use wcf\data\dynmap\external\faces\FaceList;
@@ -82,7 +83,7 @@ class Server extends DatabaseObjectDecorator
             !isset($this->dynmapName) || empty($this->dynmapName) ||
             !isset($this->dynmapPort) || empty($this->dynmapPort)
         ) {
-            throw new InvalidArgument('Dynmap not supported.');
+            throw new InvalidArgumentException('Dynmap not supported.');
         }
 
         // create database connection
