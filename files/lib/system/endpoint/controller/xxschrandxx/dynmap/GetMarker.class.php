@@ -17,6 +17,7 @@ use wcf\system\endpoint\GetRequest;
 use wcf\system\exception\PermissionDeniedException;
 use wcf\system\exception\SystemException;
 use wcf\system\request\RouteHandler;
+use wcf\system\WCF;
 
 #[GetRequest('/xxschrandxx/dynmap/{server:\d+}/marker')]
 class GetMarker implements IController
@@ -85,7 +86,7 @@ class GetMarker implements IController
                     $face->Image
                 );
             } else {
-                return new RedirectResponse(RouteHandler::getHost() . '/js/dynmap/images/blank.png');
+                return new RedirectResponse(WCF::getPath() . '/js/3rdParty/dynmap/images/blank.png');
             }
         } else { // _markers_
             $in = explode(".", $parts[1]);
@@ -115,7 +116,7 @@ class GetMarker implements IController
                         $markerIcon->Image
                     );
                 } else {
-                    return new RedirectResponse(RouteHandler::getHost() . '/js/dynmap/images/blank.png');
+                    return new RedirectResponse(WCF::getPath() . '/js/3rdParty/dynmap/images/blank.png');
                 }
             }
         }

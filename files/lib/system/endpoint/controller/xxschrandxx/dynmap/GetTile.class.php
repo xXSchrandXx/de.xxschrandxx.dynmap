@@ -15,7 +15,7 @@ use wcf\system\endpoint\GetRequest;
 use wcf\system\endpoint\IController;
 use wcf\system\exception\PermissionDeniedException;
 use wcf\system\exception\SystemException;
-use wcf\system\request\RouteHandler;
+use wcf\system\WCF;
 
 #[GetRequest('/xxschrandxx/dynmap/{server:\d+}/tile')]
 class GetTile implements IController
@@ -54,13 +54,13 @@ class GetTile implements IController
         $parts = explode("/", $path);
 
         if (count($parts) != 4) {
-            return new RedirectResponse(RouteHandler::getHost() . '/js/3rdParty/dynmap/images/blank.png');
+            return new RedirectResponse(WCF::getPath() . '/js/3rdParty/dynmap/images/blank.png');
         }
 
         $world = $parts[0];
 
         if (!$server->hasAccesToWorld($world)) {
-            return new RedirectResponse(RouteHandler::getHost() . '/js/3rdParty/dynmap/images/blank.png');
+            return new RedirectResponse(WCF::getPath() . '/js/3rdParty/dynmap/images/blank.png');
         }
 
         $variant = 'STANDARD';
@@ -73,7 +73,7 @@ class GetTile implements IController
         }
 
         if (!$server->hasAccesToMap($world, $prefix)) {
-            return new RedirectResponse(RouteHandler::getHost() . '/js/3rdParty/dynmap/images/blank.png');
+            return new RedirectResponse(WCF::getPath() . '/js/3rdParty/dynmap/images/blank.png');
         }
 
         $fparts = explode("_", $parts[3]);
@@ -87,15 +87,15 @@ class GetTile implements IController
             $x = intval($fparts[0]);
             $y = intval($fparts[1]);
         } else {
-            return new RedirectResponse(RouteHandler::getHost() . '/js/3rdParty/dynmap/images/blank.png');
+            return new RedirectResponse(WCF::getPath() . '/js/3rdParty/dynmap/images/blank.png');
         }
 
         $tile = $server->getTile($world, $prefix, $variant, $x, $y, $zoom);
         if ($tile === null) {
-            return new RedirectResponse(RouteHandler::getHost() . '/js/3rdParty/dynmap/images/blank.png');
+            return new RedirectResponse(WCF::getPath() . '/js/3rdParty/dynmap/images/blank.png');
         }
         if (!$tile->HashCode) {
-            return new RedirectResponse(RouteHandler::getHost() . '/js/3rdParty/dynmap/images/blank.png');
+            return new RedirectResponse(WCF::getPath() . '/js/3rdParty/dynmap/images/blank.png');
         }
         if ($tile->format === 0) {
             $contentType = 'image/png';
