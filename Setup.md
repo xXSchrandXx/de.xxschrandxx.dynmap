@@ -246,7 +246,7 @@
     flags: "?allowReconnect=true&autoReconnect=true"
     ```
     </details>
-7. Direkt unter dem Speicherbereich sollte sich ein Abschnitt namens „class: org.dynmap.InternalClientUpdateComponent” befinden, den wir auskommentieren werden.
+7. Direkt unter dem Speicherbereich sollte sich ein Abschnitt namens „class: org.dynmap.InternalClientUpdateComponent” befinden, der auskommentiert wird.
     <details>
     <summary>Vorher</summary>
 
@@ -386,7 +386,7 @@
         hidenames: false
     ```
     </details>
-9. Jetzt werden wir den internen Webserver deaktivieren, da wir ihn nicht mehr benötigen. Suche „disable-webserver“ und änder den Wert von `false` in `true`.
+9. Jetzt wird der interne Webserver deaktiviert, da er nicht mehr benötigt wird. Suche „disable-webserver“ und änder den Wert von `false` in `true`.
 10. (Optional) Entferne die Auskommentierung von `publicURL` und setze es zu der gewünschten URL der Webseite.
 11. Starte den Minecraft-Server neu. (Weitere Einstellungsmöglichkeiten von Dynmap unter https://github.com/webbukkit/dynmap/wiki)
 12. Bearbeite im Administationsbereich des WSC die Minecraft-Server. Setze Dynmap Datenbank-Host, -Port, -Benutzer, -Passwort und -Name.
