@@ -36,7 +36,7 @@ class GetMarker implements IController
             throw new SystemException('Unsupported SchameVersion');
         }
 
-        if (!$server->hasAccesToServer($variables['server'])) {
+        if (!$server->hasAccesToServer()) {
             throw new PermissionDeniedException();
         }
 
