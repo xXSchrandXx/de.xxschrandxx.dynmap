@@ -7,6 +7,7 @@
  */
 
 import * as D from "dynmap";
+import * as DOM from "WoltLabSuite/Core/Dom/Util";
 
 declare class DynMap extends D.DynMap {// modify DynMap to be exported
   constructor(options: D.Options);
@@ -105,6 +106,27 @@ export class MinecraftMapElement extends HTMLElement {
       console.info("Created Dynmap: " + window.dynmap);
     }
 
+    // Create fullscreen buttons
+    var fsEnter = document.createElement("button");
+    fsEnter.className = "fs-toggle";
+    fsEnter.id = "fs-enter";
+    DOM.setInnerHtml(fsEnter, '<fa-icon name="expand" size="16" solid aria-hidden="true" translage="no"></fa-icon>');
+    fsEnter.addEventListener("click", (event) => {
+      this.requestFullscreen();
+    });
+    var fsLeave = document.createElement("button");
+    fsLeave.className = "fs-toggle";
+    fsLeave.id = "fs-leave";
+    DOM.setInnerHtml(fsLeave, '<fa-icon name="compress" size="16" solid aria-hidden="true" translage="no"></fa-icon>');
+    fsLeave.addEventListener("click", (event) => {
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+      }
+    });
+    this.#container.appendChild(fsEnter);
+    this.#container.appendChild(fsLeave);
+
+    // call event
     if (this.#mapLoadedResolve) {
       this.#mapLoadedResolve();
       this.#mapLoadedResolve = undefined;

@@ -1109,3 +1109,36 @@ div.statusmessage {
 .pinnedloginbutton {
 	margin-right: 201px;
 }
+
+/* Fullscreen */
+.dynmap button.fs-toggle {
+    position: absolute;
+    z-index: 10;
+    bottom: 20px;
+}
+@include screen-md-up {
+    .dynmap button.fs-toggle {
+        right: 17.5%;
+    }
+}
+@include screen-sm-down {
+    .dynmap button.fs-toggle {
+        right: 17px;
+    }
+}
+
+minecraft-map:not(:fullscreen) #fs-enter {
+    display: block;
+}
+
+minecraft-map:not(:fullscreen) #fs-leave {
+    display: none;
+}
+
+minecraft-map:fullscreen #fs-enter {
+    display: none;
+}
+
+minecraft-map:fullscreen #fs-leave {
+    display: block;
+}
