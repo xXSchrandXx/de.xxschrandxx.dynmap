@@ -10,6 +10,7 @@
 6. Change the storage area in the `configuration.txt`.
     <details>
     <summary>Before</summary>
+
     ``` yaml
     storage:
     # Filetree storage (standard tree of image files for maps)
@@ -30,6 +31,7 @@
     </details>
     <details>
     <summary>After</summary>
+
     ``` yaml
     storage:
     # Filetree storage (standard tree of image files for maps)
@@ -51,6 +53,7 @@
 7. Directly below the storage area, there should be a section named "class: org.dynmap.InternalClientUpdateComponent" which we will comment out.
     <details>
     <summary>Before</summary>
+
     ``` yaml
     - class: org.dynmap.InternalClientUpdateComponent
         sendhealth: true
@@ -90,6 +93,7 @@
     </details>
     <details>
     <summary>After</summary>
+
     ``` yaml
     # - class: org.dynmap.InternalClientUpdateComponent
         #sendhealth: true
@@ -130,6 +134,7 @@
 8. Then remove the commenting of the section directly below it. Then it looks like this.
     <details>
     <summary>Before</summary>
+
     ``` yaml
     #- class: org.dynmap.JsonFileClientUpdateComponent
     #  writeinterval: 1
@@ -158,6 +163,7 @@
     </details>
     <details>
     <summary>After</summary>
+
     ``` yaml
     - class: org.dynmap.JsonFileClientUpdateComponent
         writeinterval: 1
@@ -199,6 +205,7 @@
 6. Änder den Speicherbereich in der `configuration.txt`.
     <details>
     <summary>Vorher</summary>
+
     ``` yaml
     storage:
     # Filetree storage (standard tree of image files for maps)
@@ -219,6 +226,7 @@
     </details>
     <details>
     <summary>Nachher</summary>
+
     ``` yaml
     storage:
     # Filetree storage (standard tree of image files for maps)
@@ -240,6 +248,7 @@
 7. Direkt unter dem Speicherbereich sollte sich ein Abschnitt namens „class: org.dynmap.InternalClientUpdateComponent” befinden, den wir auskommentieren werden.
     <details>
     <summary>Vorher</summary>
+
     ``` yaml
     - class: org.dynmap.InternalClientUpdateComponent
         sendhealth: true
@@ -279,6 +288,7 @@
     </details>
     <details>
     <summary>Nachher</summary>
+
     ``` yaml
     # - class: org.dynmap.InternalClientUpdateComponent
         #sendhealth: true
@@ -319,6 +329,7 @@
 8. Entferne danach die Auskommentierung des Abschnitts direkt darunter. Dann sieht es so aus.
     <details>
     <summary>Vorher</summary>
+
     ``` yaml
     #- class: org.dynmap.JsonFileClientUpdateComponent
     #  writeinterval: 1
@@ -347,6 +358,7 @@
     </details>
     <details>
     <summary>Nachher</summary>
+
     ``` yaml
     - class: org.dynmap.JsonFileClientUpdateComponent
         writeinterval: 1
