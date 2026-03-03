@@ -27,3 +27,8 @@ Bei Fragen zu dieser Version bitte **nicht** das offizielle Dynmap-Discord oder 
 ## 📬 Contact
 
 For any questions regarding this version, please **do not** use the official Dynmap Discord or Reddit. Instead, contact the author of this repository directly.
+
+* [PayPal](https://www.paypal.com/donate/?hosted_button_id=RFYYT7QSAU7YJ)
+* [GitHub](https://github.com/xXSchrandXx?tab=repositories)
+* [Plugins von WoltLab](https://www.woltlab.com/pluginstore/user-file-list/1503877-xxschrandxx/)
+* [Plugins von SpigotMC](https://www.spigotmc.org/resources/authors/_xxschrandxx_.228634/)
