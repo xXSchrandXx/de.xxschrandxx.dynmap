@@ -4,7 +4,6 @@ namespace wcf\data\dynmap\external\standalonefiles;
 
 use InvalidArgumentException;
 use wcf\data\dynmap\external\DynmapDatabaseObject;
-use wcf\util\JSON;
 
 /**
  * @property-read string $FileName
@@ -27,7 +26,7 @@ class StandaloneFile extends DynmapDatabaseObject
         }
 
         if (str_ends_with($this->FileName, '.json')) {
-            $this->decodedContent = JSON::decode($this->Content, true);
+            $this->decodedContent = \json_decode($this->Content, true);
         } else if (str_ends_with($this->FileName, '.php')) {
             preg_match_all('/\$(\w+)/', $this->Content, $matches);
             $result = [];

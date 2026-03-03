@@ -19,7 +19,6 @@ use wcf\system\exception\PermissionDeniedException;
 use wcf\system\exception\SystemException;
 use wcf\system\flood\FloodControl;
 use wcf\system\WCF;
-use wcf\util\JSON;
 use wcf\util\UserUtil;
 
 #[PostRequest('/xxschrandxx/dynmap/{server:\d+}/sendmessage')]
@@ -137,14 +136,14 @@ class PostSendMessage implements IController
             $conditionBuilder->add('FileName = ?', ['dynmap_webchat.json']);
             $editor = new StandaloneFileEditor($webchat, $server);
             $editor->update([
-                'Content' => JSON::encode($new_messages)
+                'Content' => \json_encode($new_messages)
             ], $conditionBuilder);
         } else {
             StandaloneFileEditor::create([
                 'server' => $server,
                 'FileName' => 'dynmap_webchat.json',
                 'ServerID' => 0,
-                'Content' => JSON::encode([$data])
+                'Content' => \json_encode([$data])
             ]);
         }
 

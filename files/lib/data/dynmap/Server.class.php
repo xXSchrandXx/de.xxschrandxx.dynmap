@@ -25,7 +25,6 @@ use wcf\system\database\MySQLDatabase;
 use wcf\system\event\EventHandler;
 use wcf\system\exception\UserInputException;
 use wcf\system\WCF;
-use wcf\util\JSON;
 use wcf\util\StringUtil;
 
 /**
@@ -108,10 +107,10 @@ class Server extends DatabaseObjectDecorator
                 // This only reads. Write like shown in \wcf\system\endpoint\controller\xxschrandxx\dynmap\PostSendMessage
                 continue;
             } else if ($standaloneFile->FileName == 'dynmap_config.json') {
-                $this->config = JSON::decode($standaloneFile->Content, true);
+                $this->config = \json_decode($standaloneFile->Content, true);
             } else {
                 if (preg_match('/^dynmap_(.+)\.json$/', $standaloneFile->FileName, $matches)) {
-                    $this->worlds[$matches[1]] = JSON::decode($standaloneFile->Content, true);
+                    $this->worlds[$matches[1]] = \json_decode($standaloneFile->Content, true);
                 }
             }
         }
