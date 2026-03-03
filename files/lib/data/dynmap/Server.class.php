@@ -3,7 +3,6 @@
 namespace wcf\data\dynmap;
 
 use BadMethodCallException;
-use InvalidArgumentException;
 use wcf\data\DatabaseObject;
 use wcf\data\DatabaseObjectDecorator;
 use wcf\data\dynmap\external\faces\FaceList;
@@ -24,6 +23,7 @@ use wcf\data\user\UserProfile;
 use wcf\system\database\exception\DatabaseException;
 use wcf\system\database\MySQLDatabase;
 use wcf\system\event\EventHandler;
+use wcf\system\exception\UserInputException;
 use wcf\system\WCF;
 use wcf\util\JSON;
 use wcf\util\StringUtil;
@@ -71,7 +71,7 @@ class Server extends DatabaseObjectDecorator
 
     /**
      * @inheritDoc
-     * @throws InvalidArgument if connection is not configured
+     * @throws UserInputException if connection is not configured
      */
     public function __construct(DatabaseObject $object)
     {
@@ -83,7 +83,7 @@ class Server extends DatabaseObjectDecorator
             !isset($this->dynmapName) || empty($this->dynmapName) ||
             !isset($this->dynmapPort) || empty($this->dynmapPort)
         ) {
-            throw new InvalidArgumentException('Dynmap not supported.');
+            throw new UserInputException('empty');
         }
 
         // create database connection
